@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <%- include('head'); -%>
+</head>
+    <body>
+        <%- include('header', {user: user}); -%>
+
+        <h2 class="calander__month"><%=month%> <%=year%></h2>
+        <div class="calander">
+            <div class="calander__day">Sunday</div>
+            <div class="calander__day">Monday</div>
+            <div class="calander__day">Tuesday</div>
+            <div class="calander__day">Wednesday</div>
+            <div class="calander__day">Thursday</div>
+            <div class="calander__day">Friday</div>
+            <div class="calander__day">Saturday</div>
+            <% for(i = 0; i < startDay; i++) {%>
+                <div class="calander__card out-bounds"></div>
+            <%}%>
+            <% for(i = 1; i <= daysInMonth; i++) {%>
+                <%if(i == currentDay) { %>
+                    <div class="calander__card current-day">
+                        <%=i%>
+                        <div class="calander__card__apps">
+                        <%for(j = 0; j < requests[i].length; j++) {%>
+                            <%if (j == 0) {%>
+                                <div class="calander__card__apps__app-1"><%=requests[i][j].customer[0]%>
+                                    <label class="request-data"><%=requests[i][j]._id%></label>
+                                    <label class="request-data"><%=requests[i][j].customer%></label>
+                                    <label class="request-data"><%=requests[i][j].email%></label>
+                                    <label class="request-data"><%=requests[i][j].phone%></label>
+                                    <label class="request-data"><%=requests[i][j].message%></label>
+                                </div>
+                            <%} else if (j == 1) {%>
+                                <div class="calander__card__apps__app-2"><%=requests[i][j].customer[0]%>
+                                    <label class="request-data"><%=requests[i][j]._id%></label>
+                                    <label class="request-data"><%=requests[i][j].customer%></label>
+                                    <label class="request-data"><%=requests[i][j].email%></label>
+                                    <label class="request-data"><%=requests[i][j].phone%></label>
+                                    <label class="request-data"><%=requests[i][j].message%></label>
+                                </div>
+                            <%} else if (j == 2) {%>
+                                <div class="calander__card__apps__app-3"><%=requests[i][j].customer[0]%>
+                                    <label class="request-data"><%=requests[i][j]._id%></label>
+                                    <label class="request-data"><%=requests[i][j].customer%></label>
+                                    <label class="request-data"><%=requests[i][j].email%></label>
+                                    <label class="request-data"><%=requests[i][j].phone%></label>
+                                    <label class="request-data"><%=requests[i][j].message%></label>
+                                </div>
+                            <%} else if (j == 3) {%>
+                                <div class="calander__card__apps__app-4"><%=requests[i].length - 3%>+
+                                    <label class="request-data"><%=requests[i][j]._id%></label>
+                                    <label class="request-data"><%=requests[i][j].customer%></label>
+                                    <label class="request-data"><%=requests[i][j].email%></label>
+                                    <label class="request-data"><%=requests[i][j].phone%></label>
+                                    <label class="request-data"><%=requests[i][j].message%></label>
+                                </div>
+                            <%} else if (j > 3) {%>  
+                                <div class="calander__card__apps__app-over">
+                                    <label class="request-data"><%=requests[i][j]._id%></label>
+                                    <label class="request-data"><%=requests[i][j].customer%></label>
+                                    <label class="request-data"><%=requests[i][j].email%></label>
+                                    <label class="request-data"><%=requests[i][j].phone%></label>
+                                    <label class="request-data"><%=requests[i][j].message%></label>
+                                </div>
+                            <%} %>  
+                        <%}%>
+                        </div>
+                    </div>
+                <%} else {%>
+                    <div class="calander__card"><%=i%>
+                        <div class="calander__card__apps">
+                            <%for(j = 0; j < requests[i].length; j++) {%>
+                                <%if (j == 0) {%>
+                                    <div class="calander__card__apps__app-1"><%=requests[i][j].customer[0]%>
+                                        <label class="request-data"><%=requests[i][j]._id%></label>
+                                        <label class="request-data"><%=requests[i][j].customer%></label>
+                                        <label class="request-data"><%=requests[i][j].email%></label>
+                                        <label class="request-data"><%=requests[i][j].phone%></label>
+                                        <label class="request-data"><%=requests[i][j].message%></label>
+                                    </div>
+                                <%} else if (j == 1) {%>
+                                    <div class="calander__card__apps__app-2"><%=requests[i][j].customer[0]%>
+                                        <label class="request-data"><%=requests[i][j]._id%></label>
+                                        <label class="request-data"><%=requests[i][j].customer%></label>
+                                        <label class="request-data"><%=requests[i][j].email%></label>
+                                        <label class="request-data"><%=requests[i][j].phone%></label>
+                                        <label class="request-data"><%=requests[i][j].message%></label>
+                                    </div>
+                                <%} else if (j == 2) {%>
+                                    <div class="calander__card__apps__app-3"><%=requests[i][j].customer[0]%>
+                                        <label class="request-data"><%=requests[i][j]._id%></label>
+                                        <label class="request-data"><%=requests[i][j].customer%></label>
+                                        <label class="request-data"><%=requests[i][j].email%></label>
+                                        <label class="request-data"><%=requests[i][j].phone%></label>
+                                        <label class="request-data"><%=requests[i][j].message%></label>
+                                    </div>
+                                <%} else if (j == 3) {%>
+                                    <div class="calander__card__apps__app-4"><%=requests[i].length - 3%>+
+                                        <label class="request-data"><%=requests[i][j]._id%></label>
+                                        <label class="request-data"><%=requests[i][j].customer%></label>
+                                        <label class="request-data"><%=requests[i][j].email%></label>
+                                        <label class="request-data"><%=requests[i][j].phone%></label>
+                                        <label class="request-data"><%=requests[i][j].message%></label>
+                                    </div>
+                                <%} else if (j > 3) {%>  
+                                    <div class="calander__card__apps__app-over">
+                                        <label class="request-data"><%=requests[i][j]._id%></label>
+                                        <label class="request-data"><%=requests[i][j].customer%></label>
+                                        <label class="request-data"><%=requests[i][j].email%></label>
+                                        <label class="request-data"><%=requests[i][j].phone%></label>
+                                        <label class="request-data"><%=requests[i][j].message%></label>
+                                    </div>
+                                <%} %> 
+                            <%}%>
+                        </div>
+                    </div>
+                <%}%>
+            <%}%>
+        </div>
+        <div class="request-popup">
+            <div class="request-popup__date">
+                <h2 class="request-popup__date-month"><%=month%></h2>
+                <h2 class="request-popup__date-day"></h2>
+                <h2 class="request-popup__date-month"><%=year%></h2>
+            </div>
+            <div class="request-popup__remove">
+                <div class="request-popup__remove-span"></div>
+            </div>
+            <div class="request-popup__content">
+            </div>
+        </div>
+        <%- include('footer'); -%>
+    </body>
+</html>

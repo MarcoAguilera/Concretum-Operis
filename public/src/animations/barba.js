@@ -112,8 +112,7 @@ function home() {
     let gb_tl = gsap.timeline({
         scrollTrigger: {
             trigger: ".gallery",
-            start: "top 70%",
-            markers: true
+            start: "top 70%"
         }
     });
 

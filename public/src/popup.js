@@ -6,6 +6,7 @@ function clickImgs() {
         });
     }
 }
+clickImgs();
 
 $('.popup').on('click', function(event) {
     if (event.target.id == "popup") {

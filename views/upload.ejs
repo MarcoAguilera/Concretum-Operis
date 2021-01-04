@@ -7,85 +7,86 @@
         <script></script>
     </head> 
     
-    <body> 
+    <body data-barba="wrapper"> 
         <%- include('header', {user: user}); -%>
-        <div class="upload-view">
-            <div class="back-img">
-                <h1 class="back-img__h1">Upload New Image</h1>
-            </div>
-            <div class="upload">
-                <div class="upload__form">
-                    <form class="md-form" id="img-form" action="/new-image" method="POST" enctype="multipart/form-data"> 
-                        <div> 
-                            <label class="upload__form--label mg-lf-sm" for="name">Image Title</label>
-                            <br> 
-                            <input class="upload__form--inputs mg-lf-sm" type="text" id="name" placeholder="Name" 
-                                value="" name="name"> 
-                        </div> 
-                        <div> 
-                            <label class="upload__form--label mg-lf-sm" for="desc">Image Description</label> 
-                            <br>
-                            <input type="text" class="upload__form--inputs mg-lf-sm" id="desc" name="desc" value="" rows="2" 
-                                    placeholder="Description"> 
-                        </input> 
-                        </div> 
-                        <div class="upload__form--prev"> 
-                            <label class="upload__form--label mg-lf-sm" for="image">Upload Image</label> 
-                            
-                            <img id="current_img" src="/img/No_image_available.svg">
-                            <input onchange="document.getElementById('current_img').src = window.URL.createObjectURL(this.files[0])" class="mg-lf-sm" type="file" id="image" 
-                                name="image" value="" required> 
-                        </div> 
-                        <div class="upload__form__bottom"> 
-                            <label class="upload__form--add" for="image">
-                                <span class="material-icons">
-                                    add_photo_alternate
-                                </span>
-                                Search</label>
-                            <br>
-                                <button class="upload__form--submit mg-lf-sm" type="submit"><span class="material-icons">
-                                    backup
-                                    </span>Submit</button>
-                        </div> 
-                    </form>
+        <main data-barba="container" data-barba-namespace="upload">
+            <div class="upload-view">
+                <div class="back-img">
+                    <h1 class="back-img__h1">Upload New Image</h1>
+                </div>
+                <div class="upload">
+                    <div class="upload__form">
+                        <form class="md-form" id="img-form" action="/new-image" method="POST" enctype="multipart/form-data"> 
+                            <div> 
+                                <label class="upload__form--label mg-lf-sm" for="name">Image Title</label>
+                                <br> 
+                                <input class="upload__form--inputs mg-lf-sm" type="text" id="name" placeholder="Name" 
+                                    value="" name="name"> 
+                            </div> 
+                            <div> 
+                                <label class="upload__form--label mg-lf-sm" for="desc">Image Description</label> 
+                                <br>
+                                <input type="text" class="upload__form--inputs mg-lf-sm" id="desc" name="desc" value="" rows="2" 
+                                        placeholder="Description"> 
+                            </input> 
+                            </div> 
+                            <div class="upload__form--prev"> 
+                                <label class="upload__form--label mg-lf-sm" for="image">Upload Image</label> 
+                                
+                                <img id="current_img" src="/img/No_image_available.svg">
+                                <input onchange="document.getElementById('current_img').src = window.URL.createObjectURL(this.files[0])" class="mg-lf-sm" type="file" id="image" 
+                                    name="image" value="" required> 
+                            </div> 
+                            <div class="upload__form__bottom"> 
+                                <label class="upload__form--add" for="image">
+                                    <span class="material-icons">
+                                        add_photo_alternate
+                                    </span>
+                                    Search</label>
+                                <br>
+                                    <button class="upload__form--submit mg-lf-sm" type="submit"><span class="material-icons">
+                                        backup
+                                        </span>Submit</button>
+                            </div> 
+                        </form>
+                    </div> 
+                </div>
+                
+                <div class="uploaded_div"> 
+                    <div class="uploaded_div__images">
+                        <% items.forEach(function(image, index) { %>
+                        <% var img_Id = image.id; %>
+                        <div class="uploaded_div__images--card">
+                                <div class="uploaded_div__images--card-div-1">
+                                    <img class="uploaded_div__images--card-img" src="data:image/<%=image.img.contentType%>;base64, 
+                                    <%=image.img.data.toString('base64')%>" onclick="editImage(this.parentNode.parentNode)"> 
+                                    <input class="uploaded_div__images--card-title" id="<%=image._id%>-title" name="<%=image._id%>-title" type="text" placeholder="<%=image.title%>">
+                                    <input class="uploaded_div__images--card-desc" id="<%=image._id%>-desc" name="<%=image._id%>-desc" type="text" placeholder="<%=image.desc%>">
+                                </div>
+                                <form id="remove-form<%=index%>" action="/delete" method="post">
+                                    <input id="img-data" type="text" name="img" value="<%=image._id%>">
+                                    <div class="uploaded_div__images--card-div-remove" onclick="document.getElementById('remove-form<%=index%>').submit();">
+                                        <div class="uploaded_div__images--card-div-remove__span"></div>
+                                    </div>
+                                </form>
+                        </div>
+                        <% }) %> 
+                    </div>
                 </div> 
             </div>
-            
-            <div class="uploaded_div"> 
-                <div class="uploaded_div__images">
-                    <% items.forEach(function(image, index) { %>
-                    <% var img_Id = image.id; %>
-                    <div class="uploaded_div__images--card">
-                            <div class="uploaded_div__images--card-div-1">
-                                <img class="uploaded_div__images--card-img" src="data:image/<%=image.img.contentType%>;base64, 
-                                <%=image.img.data.toString('base64')%>" onclick="editImage(this.parentNode.parentNode)"> 
-                                <input class="uploaded_div__images--card-title" id="<%=image._id%>-title" name="<%=image._id%>-title" type="text" placeholder="<%=image.title%>">
-                                <input class="uploaded_div__images--card-desc" id="<%=image._id%>-desc" name="<%=image._id%>-desc" type="text" placeholder="<%=image.desc%>">
-                            </div>
-                            <form id="remove-form<%=index%>" action="/delete" method="post">
-                                <input id="img-data" type="text" name="img" value="<%=image._id%>">
-                                <div class="uploaded_div__images--card-div-remove" onclick="document.getElementById('remove-form<%=index%>').submit();">
-                                    <div class="uploaded_div__images--card-div-remove__span"></div>
-                                </div>
-                            </form>
-                    </div>
-                    <% }) %> 
+            <div class="edit-popup" id="edit-popup">
+                <div class="edit-popup__view"> 
+                    <form class="edit-popup__view-form" action="/edit" method="POST">
+                        <input class="edit-popup__view-img-data" type="text" name="img">
+                        <label class="edit-popup__view-form-tlabel" for="edit-title">Title</label>
+                        <input class="edit-popup__view-title" type="text" placeholder="" name="edittitle">
+                        <label class="edit-popup__view-form-dlabel" for="edit-desc">Description</label>
+                        <input class="edit-popup__view-desc" type="text" placeholder="" name="editdesc">
+                        <button class="edit-popup__view-button" type="submit">Edit</button>
+                    </form>
                 </div>
-            </div> 
-        </div>
-        <div class="edit-popup" id="edit-popup">
-            <div class="edit-popup__view"> 
-                <form class="edit-popup__view-form" action="/edit" method="POST">
-                    <input class="edit-popup__view-img-data" type="text" name="img">
-                    <label class="edit-popup__view-form-tlabel" for="edit-title">Title</label>
-                    <input class="edit-popup__view-title" type="text" placeholder="" name="edittitle">
-                    <label class="edit-popup__view-form-dlabel" for="edit-desc">Description</label>
-                    <input class="edit-popup__view-desc" type="text" placeholder="" name="editdesc">
-                    <button class="edit-popup__view-button" type="submit">Edit</button>
-                </form>
             </div>
-        </div>
+        </main>
         <%- include('footer'); -%>
-        <script src="./src/editimg.js"></script>
     </body> 
 </html> 

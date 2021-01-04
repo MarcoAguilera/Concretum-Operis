@@ -9,75 +9,43 @@
   <%- include('head'); -%>
 </head>
 
-<body>
+<body data-barba="wrapper">
     <%- include('header', {user: user}); -%>
-    <form class="contact-form" action="/contact" method="POST" class="container animate__animated animate__fadeInLeft">
-    <div class="back-img contact-form__back-img">
-        <h1 class="back-img__h1">Let's Get In Touch</h1>
-    </div>
-    <div class="form-row align-items-center">
-        <div class="form-group col-md-4">
-        <label class="upload__form--label mg-lf-sm" for="firstName">First Name <span>&#42;</span></label>
-        <input class="upload__form--inputs mg-lf-sm" type="text" class="form-control" id="firstName" name="firstName" placeholder="John" required>
+    <main data-barba="container" data-barba-namespace="contact">
+        <form class="contact-form" action="/contact" method="POST" class="container animate__animated animate__fadeInLeft">
+        <div class="back-img contact-form__back-img">
+            <h1 class="back-img__h1">Let's Get In Touch</h1>
         </div>
-        <div class="form-group col-md-4">
-        <label class="upload__form--label mg-lf-sm" for="lastName">Last Name <span>&#42;</span></label>
-        <input class="upload__form--inputs mg-lf-sm" type="text" class="form-control" name="lastName" placeholder="Doe" required>
+        <div class="form-row align-items-center">
+            <div class="form-group col-md-4">
+            <label class="upload__form--label mg-lf-sm" for="firstName">First Name <span>&#42;</span></label>
+            <input class="upload__form--inputs mg-lf-sm" type="text" class="form-control" id="firstName" name="firstName" placeholder="John" required>
+            </div>
+            <div class="form-group col-md-4">
+            <label class="upload__form--label mg-lf-sm" for="lastName">Last Name <span>&#42;</span></label>
+            <input class="upload__form--inputs mg-lf-sm" type="text" class="form-control" name="lastName" placeholder="Doe" required>
+            </div>
         </div>
-    </div>
-    <div class="form-row align-items-center">
-        <div class="form-group col-md-4">
-            <label class="upload__form--label mg-lf-sm" for="phoneNumber">Phone Number <span>&#42;</span></label>
-            <input class="upload__form--inputs mg-lf-sm" type="text" class="form-control" name="phoneNumber" placeholder="000-000-0000" required>
+        <div class="form-row align-items-center">
+            <div class="form-group col-md-4">
+                <label class="upload__form--label mg-lf-sm" for="phoneNumber">Phone Number <span>&#42;</span></label>
+                <input class="upload__form--inputs mg-lf-sm" type="text" class="form-control" name="phoneNumber" placeholder="000-000-0000" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="upload__form--label mg-lf-sm" for="email">Email</label>
+                <input class="upload__form--inputs mg-lf-sm" type="email" class="form-control" name="email" placeholder="johndoe@email.com">
+            </div>
         </div>
-        <div class="form-group col-md-4">
-            <label class="upload__form--label mg-lf-sm" for="email">Email</label>
-            <input class="upload__form--inputs mg-lf-sm" type="email" class="form-control" name="email" placeholder="johndoe@email.com">
+        <div class="form-row align-items-center">
+            <div class="form-group col-md-8">
+            <label class="upload__form--label mg-lf-sm" for="comment">Message:</label>
+            <textarea class="form-control upload__form--inputs mg-lf-sm" rows="4" col="50" name="text"></textarea>
+            </div>
         </div>
-        <!-- <div class="form-group col-md-4">
-        <label class="upload__form--label mg-lf-sm" for="subject">Subject<span>&#42;</span></label>
-        <input class="upload__form--inputs mg-lf-sm" type="text" class="form-control" name="subject" placeholder="Quote, More Information..." required>
-        </div> -->
-    </div>
-    <!-- <div class="form-row align-items-center">
-        <div class="form-group col-md-4">
-        <label class="upload__form--label mg-lf-sm" for="title">Title</label>
-        <input class="upload__form--inputs mg-lf-sm" type="text" class="form-control" name="title" placeholder="Designer, manager...">
-        </div>
-        <div class="form-group col-md-4">
-        <label class="upload__form--label mg-lf-sm" for="company">Company</label>
-        <input class="upload__form--inputs mg-lf-sm" type="text" class="form-control" name="company" placeholder="Apple, Google, Hubspot...">
-        </div>
-    </div> -->
-    <!-- <div class="form-row align-items-center">
-        <div class="form-group col-md-4">
-        <label class="upload__form--label mg-lf-sm" for="email">Email</label>
-        <input class="upload__form--inputs mg-lf-sm" type="email" class="form-control" name="email" placeholder="johndoe@email.com">
-        </div>
-        <div class="form-group col-md-4">
-        <label class="upload__form--label mg-lf-sm" for="faxNumber">Fax Number</label>
-        <input class="upload__form--inputs mg-lf-sm" type="text" class="form-control" name="faxNumber" placeholder="000-000-0000">
-        </div>
-    </div> -->
-    <!-- <div class="form-row align-items-center">
-        <div class="form-group col-md-4">
-        <label class="upload__form--label mg-lf-sm" for="city">City</label>
-        <input class="upload__form--inputs mg-lf-sm" type="text" class="form-control" name="city" placeholder="San Francisco, San Diego...">
-        </div>
-        <div class="form-group col-md-4">
-        <label class="upload__form--label mg-lf-sm" for="state">State</label>
-        <input class="upload__form--inputs mg-lf-sm" type="text" class="form-control" name="state" placeholder="CA, NJ, TX...">
-        </div>
-    </div> -->
-    <div class="form-row align-items-center">
-        <div class="form-group col-md-8">
-        <label class="upload__form--label mg-lf-sm" for="comment">Message:</label>
-        <textarea class="form-control upload__form--inputs mg-lf-sm" rows="4" col="50" name="text"></textarea>
-        </div>
-    </div>
-    <button type="submit" class="contact-form__btn btn btn-primary" name="submit">Submit</button>
-    </form>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <%- include('footer'); -%>
+        <button type="submit" class="contact-form__btn btn btn-primary" name="submit">Submit</button>
+        </form>
+    </main>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<%- include('footer'); -%>
 </html>

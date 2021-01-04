@@ -1,15 +1,4 @@
 var clicked = false;
-var link = window.location.href.split("/")
-
-if(link[link.length - 1] == "#service-div") {
-    $('html,body').animate({
-        scrollTop: $("#service-div").offset().top},
-        'slow');
-} else if(link[link.length - 1] == "#gallery_id") {
-    $('html,body').animate({
-        scrollTop: $("#gallery_id").offset().top},
-        'slow');
-}
 
 $(".navigation__button").click(function () {
     if (!clicked) {
@@ -38,7 +27,11 @@ $(".navigation__button").click(function () {
 
 function closeNav(div) {
     $('.navigation__button').trigger("click");
-    $('html,body').animate({
-        scrollTop: $("#" + div).offset().top},
-        'slow');
+    var link = window.location.href.split("/");
+
+    if(div.length > 0 && link[link.length - 1] != "contact" && link[link.length - 1] != "login" && link[link.length - 1] != "request" && link[link.length - 1] != "upload") {
+        $('html,body').animate({
+            scrollTop: $("#" + div).offset().top},
+            'slow');
+    }
 }

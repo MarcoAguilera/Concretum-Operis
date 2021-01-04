@@ -20,12 +20,14 @@ const fs = require("fs");
 const fsExtra = require('fs-extra');
 const multer = require("multer");
 const mongoose = require("mongoose");
+const encrypt = require("mongoose-encryption");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require('passport-local-mongoose');
 const { request } = require('http');
 const app = express();
 const sendMail = require(__dirname + '/public/src/mail.js');
+
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const autheToken = process.env.TWILIO_AITH_TOKEN;
@@ -45,6 +47,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 mongoose.connect(process.env.MON_PASS, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
+// mongoose.connect("mongodb://localhost:27017/operisDB", {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
 mongoose.set("useCreateIndex", true);
 
 const userSchema = new mongoose.Schema ({
@@ -60,7 +63,6 @@ passport.use(User.createStrategy());
  
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
 
 const imageSchema = new mongoose.Schema({
     title: String,
@@ -259,6 +261,7 @@ app.get("/admin-index", function(req, res) {
 
 
 app.get("/logout", function(req, res) {
+    console.log("Logout route");
     req.logout();
     res.redirect("/");
 });
@@ -348,6 +351,22 @@ app.post("/request", function(req, res) {
         res.redirect("/login");
     }
 });
+
+// app.get("/register", function(req, res) {
+//     res.render("register");
+// });
+
+// app.post("/register", function(req, res) {
+
+//     User.register({username: req.body.username}, req.body.password, function(err, user) {
+//         if (err) {
+//             res.redirect("/register");
+//         }
+//         else {
+//             console.log("Register successful");
+//         }
+//     });
+// });
 
 app.use(function (req, res) {
     res.status(404).redirect('/');

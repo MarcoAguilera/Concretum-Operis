@@ -1,31 +1,27 @@
 
 <div class="navigation">
-    <!-- <input type="checkbox" class="navigation__checkbox" id="navi-toggle">
-    <label for="navi-toggle" class="navigation__button">
-        <span class="navigation__icon">&nbsp;</span>
-    </label> -->
-    <div class="navigation__button">
+        <div class="navigation__button">
         <div class="navigation__button-burger">
-
         </div>
     </div>
     <div class="navigation__block">
         <ul class="navigation__block__list">
-            <li class="navigation__item"><a href="/" class="navigation__link">Home</a></li>
+            <li class="navigation__item"><a onclick="closeNav('')"href="/" class="navigation__link">Home</a></li>
             <li class="navigation__item"><a onclick="closeNav('service-div')" href="/#service-div" class="navigation__link">Services</a></li>
+            <li class="navigation__item"><a onclick="closeNav('about-div')" href="/#about-div" class="navigation__link">About</a></li>
             <% if (user) { %>
-            <li class="navigation__item"><a href="/request" class="navigation__link">Calander</a></li>
+            <li class="navigation__item"><a onclick="closeNav('')" href="/request" class="navigation__link">Calander</a></li>
             <% }%>
-            <li class="navigation__item"><a href="/contact" class="navigation__link">Contact Us</a></li>
-            <li class="navigation__item"><a onclick="closeNav('gallery_id')" href="/#gallery_id" class="navigation__link">Gallery</a></li>
+            <li class="navigation__item"><a onclick="closeNav('')" href="/contact" class="navigation__link">Contact Us</a></li>
+            <li class="navigation__item"><a onclick="closeNav('gallery_id');" href="/#gallery_id" class="navigation__link">Gallery</a></li>
             <% if (user) { %>
-            <li class="navigation__item"><a href="/upload" class="navigation__link">Upload</a></li>
+            <li class="navigation__item"><a onclick="closeNav('')"href="/upload" class="navigation__link">Upload</a></li>
             <% }%>
             <% if (!user) { %>
-            <li class="navigation__item"><a href="/login" class="navigation__link">Login</a></li>
+            <li class="navigation__item"><a onclick="closeNav('')" href="/login" class="navigation__link">Login</a></li>
             <% }%>
             <% if (user) { %>
-            <li class="navigation__item"><a href="/logout" class="navigation__link">Logout</a></li>
+            <li class="navigation__item"><a onclick="closeNav('')" data-barba-prevent="self" href="/logout" class="navigation__link">Logout</a></li>
             <% }%>
         </ul>
     </div>

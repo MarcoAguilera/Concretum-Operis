@@ -17,6 +17,7 @@ function editImage(parent) {
 }
 
 $('.edit-popup').on('click', function(event) {
+
     if (event.target.id == "edit-popup") {
         var div = document.getElementsByClassName('edit-popup__view')[0];
         div.removeChild(div.firstChild);

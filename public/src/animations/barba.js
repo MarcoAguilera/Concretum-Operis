@@ -147,7 +147,9 @@ barba.init({
                 gsap.set(".pattern, .header", {duration: 3, opacity: 1});
             },
             enter(){
-                  home();
+                reloadJs("./src/popup.js");
+                reloadJs("./src/editimg.js");
+                home();
             }
         },
         {
@@ -156,7 +158,8 @@ barba.init({
                 namespace: ['login', 'contact', 'calander', 'upload']
             },
             once({next}) {
-                gsap.from(next.container, {duration: 1.5, clearProps: "all", autoAlpha: 0}).delay(1);
+                gsap.to(next.container, {duration: 1, opacity: 1}).delay(0.5);
+                console.log(next.container);
             },
             leave({current}){
                 const done = this.async();
@@ -165,7 +168,7 @@ barba.init({
             },
             beforeEnter: ({next}) => $(window).scrollTop(0),
             enter({next}){
-                gsap.from(next.container, {duration: 1.5, opacity: 0});
+                gsap.to(next.container, {duration: 1, opacity: 1}).delay(0.2);
                 reloadJs("./src/popup.js");
                 reloadJs("./src/editimg.js");
             }
@@ -180,9 +183,6 @@ barba.init({
             },
             leave: ({current}) => gsap.to(current.container, {duration: 1, x: "100%"}),
             beforeEnter: ({next}) => {
-                reloadJs("./src/scroll.js");
-                reloadJs("./src/popup.js");
-        
                 var intro = $(next.container).find(".intro");
                 var pattern = $(next.container).find(".pattern");
                 var header = $(next.container).find(".header");
@@ -194,8 +194,10 @@ barba.init({
             enter: ({next}) => {
                 const tl = gsap.timeline();
                 tl.set($(next.container).find(".intro"), {opacity: 1})
-                  .from(next.container, {duration: 1.5, xPercent: -100});
+                  .from(next.container, {duration: 1.5, xPercent: -100, clearProps: "all"});
                 home();
+                reloadJs("./src/scroll.js");
+                reloadJs("./src/popup.js");
             }
         }
     ]

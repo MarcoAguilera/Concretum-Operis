@@ -6,6 +6,7 @@ function clickImgs() {
         });
     }
 }
+
 clickImgs();
 
 $('.popup').on('click', function(event) {
@@ -60,14 +61,14 @@ function showPopUp(id) {
     document.getElementById('popup').style.opacity = "1";
     document.getElementById('popup').style.visibility = "visible";
 
-    $("html").css('overflow', 'hidden');
+    $("body").css('overflow-y', 'hidden');
 }
 
 function hidePopUp() {
     document.getElementById('popup').style.opacity = "0";
     document.getElementById('popup').style.visibility = "hidden";
     $(".carousel-item").removeClass('active');
-    $("html").css('overflow', 'visible');
+    $("body").css('overflow-y', 'visible');
 }
 
 function showDesc() {
@@ -95,16 +96,12 @@ $('.request-popup__remove').on('click', function(event) {
     $("html").css('overflow', 'visible');
 });
 
-$('.calander__card').on('click', function(event) {
+$('.in_bounds').on('click', function(event) {
     $('.request-popup__content').empty();
     $("html").css('overflow', 'hidden');
     
     var day = event.currentTarget.firstChild.data;
     var nodes = event.currentTarget.childNodes[1].childNodes;
-
-    // if (nodes.length == 1) {
-    //     $('.request-popup__content').append(`<h2 class="request-popup__content__none">No requests available for this day</h2>`);
-    // }
 
     $('.request-popup__date-day').html(day);
     

@@ -5,6 +5,7 @@ $('.contact-popup__form').on('submit', function(event) {
     var phone = $('input[name="contactPopupNumber"]').val();
 
     $.ajax({
+        async: true,
         url: "/",
         method: 'POST',
         contentType: 'application/json',

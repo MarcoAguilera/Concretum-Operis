@@ -1034,7 +1034,8 @@ input[type="file"] {
     .login {
       margin-top: 0rem; } }
   .login__body {
-    height: 100vh; }
+    height: 100vh;
+    opacity: 0; }
     @media (max-height: 25.9375em) {
       .login__body {
         width: 100%;
@@ -1720,7 +1721,6 @@ input[type="file"] {
   background-color: transparent;
   z-index: 5000;
   overflow: hidden;
-  opacity: 0;
   display: grid;
   grid-template-columns: repeat(5, 1fr); }
   @media (max-width: 46.875em) {
@@ -1741,3 +1741,6 @@ input[type="file"] {
       background-color: #97852b; }
     .intro__slot-5 {
       background-color: #7e6f24; }
+
+.main {
+  opacity: 0; }

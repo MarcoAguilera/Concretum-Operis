@@ -7,7 +7,7 @@
     <body data-barba="wrapper">
         <%- include('header', {user: user}); -%>
 
-        <main data-barba="container" data-barba-namespace="calander">
+        <main data-barba="container" data-barba-namespace="calander" class="main">
             <h2 class="calander__month"><%=month%> <%=year%></h2>
             <div class="calander">
                 <div class="calander__day">Sunday</div>
@@ -22,7 +22,7 @@
                 <%}%>
                 <% for(i = 1; i <= daysInMonth; i++) {%>
                     <%if(i == currentDay) { %>
-                        <div class="calander__card current-day">
+                        <div class="calander__card current-day in_bounds">
                             <%=i%>
                             <div class="calander__card__apps">
                             <%for(j = 0; j < requests[i].length; j++) {%>
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                     <%} else {%>
-                        <div class="calander__card"><%=i%>
+                        <div class="calander__card in_bounds"><%=i%>
                             <div class="calander__card__apps">
                                 <%for(j = 0; j < requests[i].length; j++) {%>
                                     <%if (j == 0) {%>
@@ -134,6 +134,7 @@
                 </div>
             </div>
         </main>
+        
         <%- include('footer'); -%>
     </body>
 </html>

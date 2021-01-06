@@ -122,6 +122,7 @@ function home() {
 barba.use(barbaPrefetch);
 
 barba.init({
+    timeout: 5000,
     transitions: [
         {
             name: "home",

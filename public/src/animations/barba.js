@@ -141,13 +141,11 @@ barba.init({
             },
             leave(){},
             beforeEnter(){
-                reloadJs("./src/scroll.js");
-                reloadJs("./src/popup.js");
-
                 gsap.set(".intro", {height: 0});
                 gsap.set(".pattern, .header", {duration: 3, opacity: 1});
             },
             enter(){
+                reloadJs("./src/scroll.js");
                 reloadJs("./src/popup.js");
                 reloadJs("./src/editimg.js");
                 home();

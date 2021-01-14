@@ -6,10 +6,6 @@
 // - Https is used to make request to api's (example would be mongodb)
 // - BodyParser is used to grab data from html file using the name variable
 
-//mongo mongodb+srv://cluster0.nagbx.mongodb.net/fruitsDB --username admin-roberto
-// mongo mongodb+srv://cluster0.nagbx.mongodb.net/fruitsDB --username admin-roberto --password QX4onslFaj0NBBeg
-// mongo "mongodb://cluster0-shard-00-00.nagbx.mongodb.net:27017,cluster0-shard-00-01.nagbx.mongodb.net:27017,cluster0-shard-00-02.nagbx.mongodb.net:27017/fruitsDB?replicaSet=atlas-mjzj8v-shard-0" --ssl --authenticationDatabase admin --username admin-roberto --password QX4onslFaj0NBBeg
-// mongo "mongodb+srv://cluster0.nagbx.mongodb.net/fruitsDB" --username admin-roberto
 
 require('dotenv').config();
 

@@ -6,11 +6,6 @@
 // - Https is used to make request to api's (example would be mongodb)
 // - BodyParser is used to grab data from html file using the name variable
 
-//mongo mongodb+srv://cluster0.nagbx.mongodb.net/fruitsDB --username admin-roberto
-// mongo mongodb+srv://cluster0.nagbx.mongodb.net/fruitsDB --username admin-roberto --password QX4onslFaj0NBBeg
-// mongo "mongodb://cluster0-shard-00-00.nagbx.mongodb.net:27017,cluster0-shard-00-01.nagbx.mongodb.net:27017,cluster0-shard-00-02.nagbx.mongodb.net:27017/fruitsDB?replicaSet=atlas-mjzj8v-shard-0" --ssl --authenticationDatabase admin --username admin-roberto --password QX4onslFaj0NBBeg
-// mongo "mongodb+srv://cluster0.nagbx.mongodb.net/fruitsDB" --username admin-roberto
-
 require('dotenv').config();
 
 const express = require("express");
@@ -350,6 +345,26 @@ app.post("/request", function(req, res) {
     else {
         res.redirect("/login");
     }
+});
+
+app.get("/portfolio", function(req, res) {
+    res.render("portfolio", {user: req.isAuthenticated()});
+});
+
+app.get("/novato", function(req, res) {
+    res.render("novato", {user: req.isAuthenticated()});
+});
+
+app.get("/stinson-beach", function(req, res) {
+    res.render("stinson-beach", {user: req.isAuthenticated()});
+});
+
+app.get("/san-rafael", function(req, res) {
+    res.render("san-rafael", {user: req.isAuthenticated()});
+});
+
+app.get("/valencia-st", function(req, res) {
+    res.render("valencia-st", {user: req.isAuthenticated()});
 });
 
 // app.get("/register", function(req, res) {

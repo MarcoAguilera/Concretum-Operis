@@ -347,6 +347,26 @@ app.post("/request", function(req, res) {
     }
 });
 
+app.get("/portfolio", function(req, res) {
+    res.render("portfolio", {user: req.isAuthenticated()});
+});
+
+app.get("/novato", function(req, res) {
+    res.render("novato", {user: req.isAuthenticated()});
+});
+
+app.get("/stinson-beach", function(req, res) {
+    res.render("stinson-beach", {user: req.isAuthenticated()});
+});
+
+app.get("/san-rafael", function(req, res) {
+    res.render("san-rafael", {user: req.isAuthenticated()});
+});
+
+app.get("/valencia-st", function(req, res) {
+    res.render("valencia-st", {user: req.isAuthenticated()});
+});
+
 // app.get("/register", function(req, res) {
 //     res.render("register");
 // });

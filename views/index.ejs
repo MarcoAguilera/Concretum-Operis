@@ -7,7 +7,7 @@
     </head>
     <body data-barba="wrapper">
         <%- include('header', {user: user}); -%>
-        
+
         <main data-barba="container" data-barba-namespace="home">
             <div class="main-view">
                 <div class="intro">
@@ -106,6 +106,7 @@
                         <%}%>
                     <%}%>
                 </section>
+                <%- include('bottom'); -%>
             </div>
             <div>
                 <div class="popup" id="popup">

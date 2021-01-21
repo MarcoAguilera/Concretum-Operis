@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <%- include('head'); -%>
+    </head>
+    <body data-barba="wrapper">
+        <%- include('header', {user: user}); -%>
+        <main class="portfolio_body" data-barba="container" data-barba-namespace="portfolio">
+            <div class="portfolio_back">
+                <div class="title">Portfolio</div>
+            </div>
+            <div class="portfolio">
+                <a class="p1" href="/novato">
+                    <div class="novato">
+                        <img class="cover-img novato_img" src="/projects/novato/F.jpg">
+                        <div class="project_name">
+                            Indian Trail, Novato
+                        </div>
+                        <div class="view_project">
+                            View Project &#x000BB;
+                        </div>
+                    </div>
+                </a>
+                <a class="p2" href="/stinson-beach">
+                    <div class="stinson_beach">
+                        <img class="cover-img stinson_beach_img" src="/projects/stinson_beach/12_2x.jpg">
+                        <div class="project_name">
+                            Stinson Beach
+                        </div>
+                        <div class="view_project">
+                            View Project &#x000BB;
+                        </div>
+                    </div>
+                </a>
+                <a class="p3" href="/san-rafael">
+                    <div class="san-rafael">
+                        <img class="cover-img san-rafael_img" src="/projects/san-rafael/3.jpg">
+                        <div class="project_name">
+                            San Rafael
+                        </div>
+                        <div class="view_project">
+                            View Project &#x000BB;
+                        </div>
+                    </div>
+                </a>
+                <a class="p4" href="/valencia-st">
+                    <div class="valencia">
+                        <img class="cover-img valencia_img" src="/projects/valencia/5.jpg">
+                        <div class="project_name">
+                            Valencia St, San Francisco
+                        </div>
+                        <div class="view_project">
+                            View Project &#x000BB;
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </main>
+    </body>
+    <%- include('footer'); -%>
+</html>

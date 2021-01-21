@@ -16,5 +16,4 @@ $( document ).ready(function () {
             scrollTop: $("#gallery_id").offset().top},
             'slow');
     }
-
  });

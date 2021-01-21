@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('head'); -%>
+    </head>
+    <body data-barba="wrapper">
+        <%- include('header', {user: user}); -%>
+        <main class="portfolio_body" data-barba="container" data-barba-namespace="novato">
+            <div class="project-root">
+                <h2 class="word-wrap project-root__title">Indian Trail, Novato</h2>
+                <div class="project-root__gallery">
+                    <div class="photo-container l-photo">
+                        <img class="project-root__gallery-photo" src="/projects/novato/F.jpg">
+                    </div>
+                    <div class="photo-container r-photo">
+                        <img class="project-root__gallery-photo" src="/projects/novato/D.jpg">
+                    </div>
+                    <div class="photo-container l-photo">
+                        <img class="project-root__gallery-photo" src="/projects/novato/C.jpg">
+                    </div>
+                    <div class="photo-container r-photo">
+                        <img class="project-root__gallery-photo" src="/projects/novato/E.jpg">
+                    </div>
+                    <div class="photo-container l-photo">
+                        <img class="project-root__gallery-photo" src="/projects/novato/B.jpg">
+                    </div>
+                    <div class="photo-container r-photo">
+                        <img class="project-root__gallery-photo" src="/projects/novato/A.jpg">
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        <%- include('footer'); -%>
+    </body>
+</html>

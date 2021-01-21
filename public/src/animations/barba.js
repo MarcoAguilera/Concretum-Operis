@@ -143,6 +143,7 @@ barba.init({
             beforeEnter(){
                 gsap.set(".intro", {height: 0});
                 gsap.set(".pattern, .header", {duration: 3, opacity: 1});
+                reloadJs("./src/popup.js");
             },
             enter(){
                 reloadJs("./src/scroll.js");
@@ -154,7 +155,7 @@ barba.init({
         {
             name: "fade", 
             to: {
-                namespace: ['login', 'contact', 'calander', 'upload']
+                namespace: ['login', 'contact', 'calander', 'upload', 'portfolio']
             },
             once({next}) {
                 gsap.to(next.container, {duration: 1, opacity: 1}).delay(0.5);
@@ -173,14 +174,42 @@ barba.init({
             }
         },
         {
+            to: {
+                namespace: ['novato', 'san-rafael', 'stinson-beach', 'valencia-st']
+            },
+            
+            once({next}) {
+                const tl = gsap.timeline();
+                tl.to(next.container, {duration: 1, opacity: 1}).delay(0.5)
+                  .to('.project-root__title', {duration: 1, opacity: 1}, 0)
+                  .from('.project-root__title', {duration: 1, yPercent: 50}, 0)
+                  .from('.project-root__gallery-photo', {duration: 1, xPercent: -101, stagger: 0.2}, '-=.5');
+            },
+            leave({current}) {
+                const done = this.async();
+                gsap.to(current.container, {duration: 1, opacity: 0, onComplete: () => done()});
+            },
+            beforeEnter: ({next}) => $(window).scrollTop(0),
+            enter({next}){
+                $(window).scrollTop(0)
+                const tl = gsap.timeline();
+                tl.to(next.container, {duration: 1, opacity: 1}).delay(0.2)
+                  .to('.project-root__title', {duration: 1, opacity: 1}, 0)
+                  .from('.project-root__title', {duration: 1, yPercent: 50}, 0)
+                  .from('.project-root__gallery-photo', {duration: 1, xPercent: -101, stagger: 0.2}, '-=.5');
+                reloadJs("./src/popup.js");
+                reloadJs("./src/editimg.js");
+            }
+        },
+        {
             name: "slide",
             from: {
-                namespace: ['login', 'contact', 'calander', 'upload']
+                namespace: ['login', 'contact', 'calander', 'upload', 'portfolio', 'novato', 'san-rafael', 'stinson-beach', 'valencia-st']
             },
             to: {
                 namespace: ['home']
             },
-            leave: ({current}) => gsap.to(current.container, {duration: 1, x: "100%"}),
+            leave: ({current}) => gsap.to(current.container, {duration: 1, opacity: 0}),
             beforeEnter: ({next}) => {
                 var intro = $(next.container).find(".intro");
                 var pattern = $(next.container).find(".pattern");
@@ -193,7 +222,7 @@ barba.init({
             enter: ({next}) => {
                 const tl = gsap.timeline();
                 tl.set($(next.container).find(".intro"), {opacity: 1})
-                  .from(next.container, {duration: 1.5, xPercent: -100, clearProps: "all"});
+                  .from(next.container, {duration: 1.5, opacity: 0, clearProps: "all"});
                 home();
                 reloadJs("./src/scroll.js");
                 reloadJs("./src/popup.js");

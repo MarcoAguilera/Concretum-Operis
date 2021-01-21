@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('head'); -%>
+    </head>
+    <body data-barba="wrapper">
+        <%- include('header', {user: user}); -%>
+        <main class="portfolio_body" data-barba="container" data-barba-namespace="san-rafael">
+            <div class="project-root">
+                <h2 class="word-wrap project-root__title">San Rafael</h2>
+                <div class="project-root__gallery">
+                    <div class="photo-container l-photo">
+                        <img class="project-root__gallery-photo" src="/projects/san-rafael/4.jpg">
+                    </div>
+                    <div class="photo-container r-photo">
+                        <img class="project-root__gallery-photo" src="/projects/san-rafael/5.jpg">
+                    </div>
+                    <div class="photo-container l-photo">
+                        <img class="project-root__gallery-photo" src="/projects/san-rafael/1.jpg">
+                    </div>
+                    <div class="photo-container r-photo">
+                        <img class="project-root__gallery-photo" src="/projects/san-rafael/6.jpg">
+                    </div>
+                    <div class="photo-container l-photo">
+                        <img class="project-root__gallery-photo" src="/projects/san-rafael/3.jpg">
+                    </div>
+                    <div class="photo-container r-photo">
+                        <img class="project-root__gallery-photo" src="/projects/san-rafael/2.jpg">
+                    </div>
+                </div>
+            </div>
+        </main>
+        <%- include('footer'); -%>
+    </body>
+</html>

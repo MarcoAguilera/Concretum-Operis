@@ -1877,9 +1877,6 @@ input[type="file"] {
       @media (max-width: 46.875em) {
         .project-root__gallery-photo {
           width: 90vw; } }
-    @media (max-width: 46.875em) {
-      .project-root__gallery-photo:not(:last-child) {
-        margin-bottom: 2rem; } }
 
 .l-photo {
   grid-column: 2 / span 3; }
@@ -1889,6 +1886,9 @@ input[type="file"] {
 
 .photo-container {
   overflow: hidden; }
+  @media (max-width: 46.875em) {
+    .photo-container:not(:last-child) {
+      margin-bottom: 2rem; } }
 
 .word-wrap {
   width: auto;

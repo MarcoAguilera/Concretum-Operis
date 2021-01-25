@@ -328,15 +328,12 @@ $breakpoint arguement choices:
       color: #fddb3a; }
   .nav_right {
     display: flex;
-    height: inherit; }
+    height: inherit;
+    margin-right: 1rem; }
   .nav button {
-    margin-right: 1.5rem;
     height: inherit;
     display: flex;
     align-items: center; }
-    @media (max-width: 46.875em) {
-      .nav button {
-        margin-right: -1.5rem; } }
 
 .hide-nav {
   opacity: 0; }

@@ -333,7 +333,8 @@ $breakpoint arguement choices:
   .nav button {
     height: inherit;
     display: flex;
-    align-items: center; }
+    align-items: center;
+    outline-style: none; }
 
 .hide-nav {
   opacity: 0; }

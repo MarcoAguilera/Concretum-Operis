@@ -41,7 +41,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect(process.env.MON_PASS, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
+mongoose.connect(process.env.MON_PASS, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false, family: 4, poolSize: 10});
+mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // mongoose.connect("mongodb://localhost:27017/operisDB", {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
 mongoose.set("useCreateIndex", true);
 
@@ -59,14 +60,14 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-const imageSchema = new mongoose.Schema({
-    title: String,
-    desc: String,
-    img: {
-        data: Buffer,
-        contentType: String
-    }
-});
+// const imageSchema = new mongoose.Schema({
+//     title: String,
+//     desc: String,
+//     img: {
+//         data: Buffer,
+//         contentType: String
+//     }
+// });
 
 const requestSchema = new mongoose.Schema({
     customer: String,
@@ -76,30 +77,32 @@ const requestSchema = new mongoose.Schema({
     date: {type: Date, default: Date.now}
 });
 
-const Image = mongoose.model("Image", imageSchema);
+// const Image = mongoose.model("Image", imageSchema);
 
 const Request = mongoose.model("Request", requestSchema);
 
-var storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '/uploads/'))
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.filename + '-' + Date.now())
-    }
-});
+// var storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, path.join(__dirname, '/uploads/'))
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.filename + '-' + Date.now())
+//     }
+// });
 
-var upload = multer({ storage: storage }); 
+// var upload = multer({ storage: storage }); 
 
 app.get("/", function(req, res) {
-    Image.find({}, (err, items) => { 
-        if (err) { 
-            console.log(err); 
-        } 
-        else { 
-            res.render("index", {user : req.isAuthenticated(), images : items}); 
-        } 
-    });
+    res.render("index", {user : req.isAuthenticated()});
+    // res.render("index", {user : req.isAuthenticated(), images : items});
+    // Image.find({}, (err, items) => { 
+    //     if (err) { 
+    //         console.log(err); 
+    //     } 
+    //     else { 
+    //          
+    //     } 
+    // });
 });
 
 app.post("/", function(req, res) {
@@ -123,21 +126,21 @@ app.post("/", function(req, res) {
     res.send('POST Handled');
 });
 
-app.get('/upload', (req, res) => { 
-    if (req.isAuthenticated()) {
-        Image.find({}, (err, items) => { 
-            if (err) { 
-                console.log(err); 
-            } 
-            else { 
-                res.render('upload', { items: items,  user: req.isAuthenticated() }); 
-            } 
-        }); 
-    }
-    else {
-        res.redirect("/login");
-    }
-}); 
+// app.get('/upload', (req, res) => { 
+//     if (req.isAuthenticated()) {
+//         Image.find({}, (err, items) => { 
+//             if (err) { 
+//                 console.log(err); 
+//             } 
+//             else { 
+//                 res.render('upload', { items: items,  user: req.isAuthenticated() }); 
+//             } 
+//         }); 
+//     }
+//     else {
+//         res.redirect("/login");
+//     }
+// }); 
 
 app.get('/contact', function(req, res) {
     res.render("contact", {user : req.isAuthenticated()});
@@ -176,74 +179,74 @@ app.post('/contact', function(req, res) {
     });
 });
 
-app.post('/new-image', upload.single('image'), (req, res, next) => { 
-    if (req.isAuthenticated()) {
-        var obj = { 
-            title: req.body.name, 
-            desc: req.body.desc, 
-            img: { 
-                data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
-                contentType: 'image/png'
-            } 
-        } 
-        Image.create(obj, (err, item) => { 
-            if (err) { 
-                console.log(err); 
-                res.redirect("/upload")
-            } 
-            else { 
-                console.log("Image added to database");
-                res.redirect("/upload"); 
-            }
-        });
-    }
-    else {
-        res.redirect("/login");
-    }
-}); 
+// app.post('/new-image', upload.single('image'), (req, res, next) => { 
+//     if (req.isAuthenticated()) {
+//         var obj = { 
+//             title: req.body.name, 
+//             desc: req.body.desc, 
+//             img: { 
+//                 data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
+//                 contentType: 'image/png'
+//             } 
+//         } 
+//         Image.create(obj, (err, item) => { 
+//             if (err) { 
+//                 console.log(err); 
+//                 res.redirect("/upload")
+//             } 
+//             else { 
+//                 console.log("Image added to database");
+//                 res.redirect("/upload"); 
+//             }
+//         });
+//     }
+//     else {
+//         res.redirect("/login");
+//     }
+// }); 
 
-app.post("/delete", function(req, res) {
-    if (req.isAuthenticated()) {
-        const imageID = req.body.img;
-        Image.findByIdAndRemove(imageID, function(err) {
-            if (!err) {
-                console.log("Successfully deleted image!");
-            }
-            else {
-                console.log(err);
-            }
-            res.redirect('/upload'); 
-        });
-    }
-    else {
-        res.redirect("/login");
-    }
-});
+// app.post("/delete", function(req, res) {
+//     if (req.isAuthenticated()) {
+//         const imageID = req.body.img;
+//         Image.findByIdAndRemove(imageID, function(err) {
+//             if (!err) {
+//                 console.log("Successfully deleted image!");
+//             }
+//             else {
+//                 console.log(err);
+//             }
+//             res.redirect('/upload'); 
+//         });
+//     }
+//     else {
+//         res.redirect("/login");
+//     }
+// });
 
-app.post("/edit", function(req, res) {
-    if (req.isAuthenticated()) {
-        var img = req.body.img
-        var title = req.body.edittitle;
-        var desc = req.body.editdesc;
+// app.post("/edit", function(req, res) {
+//     if (req.isAuthenticated()) {
+//         var img = req.body.img
+//         var title = req.body.edittitle;
+//         var desc = req.body.editdesc;
 
-        Image.update(
-            {_id: img },
-            {$set: {title: title, desc: desc}},
-            function(err) {
-                if(!err) {
-                    console.log("Successfully Updated!");
-                }
-                else {
-                    console.log(err);
-                }
-                res.redirect("/upload");
-            }
-        );
-    }
-    else {
-        res.redirect("/login");
-    }
-});
+//         Image.update(
+//             {_id: img },
+//             {$set: {title: title, desc: desc}},
+//             function(err) {
+//                 if(!err) {
+//                     console.log("Successfully Updated!");
+//                 }
+//                 else {
+//                     console.log(err);
+//                 }
+//                 res.redirect("/upload");
+//             }
+//         );
+//     }
+//     else {
+//         res.redirect("/login");
+//     }
+// });
 
 app.get("/admin-index", function(req, res) {
     if (req.isAuthenticated()) {

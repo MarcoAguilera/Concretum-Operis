@@ -22,14 +22,14 @@ hamburger.addEventListener("click", function() {
     hamburger.classList.toggle("is-active");
     // Do something else, like open/close menu
     if(toggle == false) {
-        if (w > 830) {
+        if (w > 570) {
             tl.play();
         }
         toggle = true;
         m_nav.play();
     }
     else {
-        if (w > 830) {
+        if (w > 570) {
             tl.reverse();
         }
         toggle = false;
@@ -40,7 +40,7 @@ hamburger.addEventListener("click", function() {
 var navbar  = document.querySelector('.nav');
 
 ScrollTrigger.matchMedia({
-    "(min-width: 830px)" : function() {
+    "(min-width: 570px)" : function() {
         ScrollTrigger.create({
             start: "top",
             end: 99999,
@@ -61,7 +61,7 @@ ScrollTrigger.matchMedia({
  function closeNav(div) {
     var w = window.screen.width;
     $('.hamburger').trigger("click");
-    if(w > 830) {
+    if(w > 570) {
         $('html,body').animate({
             scrollTop: $(div).offset().top,
         },

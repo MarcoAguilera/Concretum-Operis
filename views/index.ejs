@@ -91,54 +91,9 @@
                         </div>
                     </div>
                 </div>
-                <section class="gallery" id="gallery_id">
-                    <%for(i = 0; i < 14; i++) {%>
-                        <%if (images.length > i) {%>
-                            <% var image = images[i]; %>
-                            <figure class="gallery__item gallery__item--<%= i + 1%>">
-                                <img id="__img-<%=i%>" class="gallery__img" src="data:image/<%=image.img.contentType%>;base64, 
-                                        <%=image.img.data.toString('base64')%>">
-                            </figure>
-                        <%} else {%>
-                            <figure class="gallery__item gallery__item--<%= i + 1%>">
-                                <img id="__img-<%=i%>" class="gallery__comingsoon" src="./img/coming_soon.jpg">
-                            </figure>
-                        <%}%>
-                    <%}%>
-                </section>
                 <%- include('bottom'); -%>
             </div>
             <div>
-                <div class="popup" id="popup">
-                    <div class="popup__content">
-                        <div id="popup__carousel" class="carousel slide" data-ride="carousel" data-interval="false">
-                            <div class="carousel-inner">
-                                <% images.forEach(function(image, index) { %>
-                                    <div id="carousel__img-<%=index %>" class="carousel-item">
-                                        <img class="carousel__img" src="data:image/<%=image.img.contentType%>;base64, 
-                                        <%=image.img.data.toString('base64')%>"> 
-                                        <!-- <% if(image.title !== "") {%>
-                                        <div class="carousel-item__container">
-                                            <h2 class="carousel-item__container-title"><%=image.title%></h2>
-                                            <% if(image.desc !== ""){%>
-                                            <p class="carousel-item__container-desc"><%=image.desc%></p>
-                                            <%}%>
-                                        </div>
-                                        <%}%> -->
-                                    </div>
-                                <% }) %>
-                            </div>
-                            <a class="carousel-control-prev" href="#popup__carousel" role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#popup__carousel" role="button" data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
                 <div class="contact-popup">
                     <div class="contact-popup__close">
                         <div class= "contact-popup__close-x uploaded_div__images--card-div-remove__span"></div>

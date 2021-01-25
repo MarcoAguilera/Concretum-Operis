@@ -1785,7 +1785,8 @@ input[type="file"] {
 .bottom-footer {
   background-color: #1e1c19;
   height: 15rem;
-  overflow: hidden; }
+  overflow: hidden;
+  z-index: 5; }
   @media (max-width: 37.5em) {
     .bottom-footer {
       height: auto;

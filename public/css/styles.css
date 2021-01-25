@@ -291,7 +291,7 @@ $breakpoint arguement choices:
 
 .nav {
   height: 8rem;
-  width: 100vw;
+  width: 100%;
   background-color: #1e1c19;
   z-index: 100;
   position: fixed;

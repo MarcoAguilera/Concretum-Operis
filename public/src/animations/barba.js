@@ -191,7 +191,7 @@ barba.init({
             },
             beforeEnter: ({next}) => $(window).scrollTop(0),
             enter({next}){
-                $(window).scrollTop(0)
+                $(window).scrollTop(0);
                 const tl = gsap.timeline();
                 tl.to(next.container, {duration: 1, opacity: 1}).delay(0.2)
                   .to('.project-root__title', {duration: 1, opacity: 1}, 0)

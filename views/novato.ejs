@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
     <head>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -31,6 +31,53 @@
                 </div>
             </div>
 
+        </main>
+        <%- include('footer'); -%>
+    </body>
+</html> -->
+
+<!-- <div class="project-root">
+                <h2 class="word-wrap project-root__title"><%=project.name%></h2>
+                <div class="project-root__gallery">
+                    <% images.forEach(function(img, index) { %>
+                    <% if (index % 2 == 0) {%>
+                        <div class="photo-container l-photo">
+                            <img class="project-root__gallery-photo" src="data:image/<%=img.contentType%>;base64,<%=img.data.toString('base64')%>">
+                        </div>
+                    <%} else { %>
+                        <div class="photo-container r-photo">
+                            <img class="project-root__gallery-photo" src="data:image/<%=img.contentType%>;base64,<%=img.data.toString('base64')%>">
+                        </div>
+                    <%}%>       
+                    <% }) %>    
+                </div>
+            </div> -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <%- include('head'); -%>
+    </head>
+    <body data-barba="wrapper">
+        <%- include('header', {user: user}); -%>
+        <main class="portfolio_body" data-barba="container" data-barba-namespace="project">
+            <div class="project-root">
+                <h2 class="word-wrap project-root__title"><%=project.name%></h2>
+                <div class="project-root__gallery">
+                    <% images.forEach(function(img, index) { %>
+                    <% if (index % 2 == 0) {%>
+                        <div class="photo-container l-photo">
+                            <img class="project-root__gallery-photo" src="data:image/<%=img.contentType%>;base64,<%=img.data.toString('base64')%>">
+                        </div>
+                    <%} else { %>
+                        <div class="photo-container r-photo">
+                            <img class="project-root__gallery-photo" src="data:image/<%=img.contentType%>;base64,<%=img.data.toString('base64')%>">
+                        </div>
+                    <%}%>       
+                    <% }) %>    
+                </div>
+            </div>
         </main>
         <%- include('footer'); -%>
     </body>

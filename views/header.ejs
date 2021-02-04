@@ -2,16 +2,19 @@
     <img class="nav_logo" src="/img/logo.svg" alt="Concretum Operis Inc.">
     <div class="nav_right">
         <ul class="nav_list">
-            <li><a onclick="closeNav('')"href="/" class="navigation__link">Home</a></li>
+            <li><a onclick="closeNav('')" href="/" class="navigation__link">Home</a></li>
             <li><a onclick="closeNav('#service-div')" href="/#service-div" class="navigation__link">Services</a></li>
             <li><a onclick="closeNav('#about-div')" href="/#about-div" class="navigation__link">About</a></li>
-            <li><a onclick="closeNav('')" href="/portfolio" class="navigation__link">Portfolio</a></li>
+            <li><a onclick="closeNav('')" href="/past-projects" class="navigation__link">Past Projects</a></li>
             <% if (user) { %>
             <li><a onclick="closeNav('')" href="/request" class="navigation__link">Calander</a></li>
             <% }%>
             <li><a onclick="closeNav('')" href="/contact" class="navigation__link">Contact Us</a></li>
             <% if (!user) { %>
             <li><a onclick="closeNav('')" href="/login" class="navigation__link">Login</a></li>
+            <% }%>
+            <% if (user) { %>
+                <li><a onclick="closeNav('')" href="/edit" class="navigation__link">Edit</a></li>
             <% }%>
             <% if (user) { %>
             <li><a onclick="closeNav('')" data-barba-prevent="self" href="/logout" class="navigation__link">Logout</a></li>
@@ -36,16 +39,19 @@
 
 <div class="mobile-nav">
     <ul class="mobile-nav__list">
-        <li><a onclick="closeNav('')"href="/" class="navigation__link">Home</a></li>
+        <li><a onclick="closeNav('')" href="/" class="navigation__link">Home</a></li>
         <li><a onclick="closeNav('#service-div')" href="/#service-div" class="navigation__link">Services</a></li>
         <li><a onclick="closeNav('#about-div')" href="/#about-div" class="navigation__link">About</a></li>
-        <li><a onclick="closeNav('')" href="/portfolio" class="navigation__link">Portfolio</a></li>
+        <li><a onclick="closeNav('')" href="/past-projects" class="navigation__link">Past Projects</a></li>
         <% if (user) { %>
         <li><a onclick="closeNav('')" href="/request" class="navigation__link">Calander</a></li>
         <% }%>
         <li><a onclick="closeNav('')" href="/contact" class="navigation__link">Contact Us</a></li>
         <% if (!user) { %>
         <li><a onclick="closeNav('')" href="/login" class="navigation__link">Login</a></li>
+        <% }%>
+        <% if (user) { %>
+            <li><a onclick="closeNav('')" href="/edit" class="navigation__link">Edit</a></li>
         <% }%>
         <% if (user) { %>
         <li><a onclick="closeNav('')" data-barba-prevent="self" href="/logout" class="navigation__link">Logout</a></li>

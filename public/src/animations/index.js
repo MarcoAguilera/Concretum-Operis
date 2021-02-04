@@ -57,47 +57,47 @@ function home() {
     });
 
     // About top section timeline
-    let a_tl = gsap.timeline({
-        scrollTrigger: {
-            trigger: ".about__top",
-            start: "top center"
-        }
-    });
+    // let a_tl = gsap.timeline({
+    //     scrollTrigger: {
+    //         trigger: ".about__top",
+    //         start: "top center"
+    //     }
+    // });
 
-    a_tl.from(".about__top__back-img", {
-        x: -300,
-        opacity: 0,
-        duration: 1.5
-    })
-    .from(".about__top__title", {
-        opacity: 0,
-        duration: 1.5,
-    });
+    // a_tl.from(".about__top__back-img", {
+    //     x: -300,
+    //     opacity: 0,
+    //     duration: 1.5
+    // })
+    // .from(".about__top__title", {
+    //     opacity: 0,
+    //     duration: 1.5,
+    // });
 
-    // About bottom section timeline
-    let ab_tl = gsap.timeline({
-        scrollTrigger: {
-            trigger: ".about__bottom",
-            start: "top 84%"
-        }
-    });
+    // // About bottom section timeline
+    // let ab_tl = gsap.timeline({
+    //     scrollTrigger: {
+    //         trigger: ".about__bottom",
+    //         start: "top 84%"
+    //     }
+    // });
 
-    ab_tl.from(".about__bottom__wDo, .about__bottom__wTo, .about__bottom__wC", {
-        y: 150,
-        duration: 0.6,
-        stagger: 0.2,
-        opacity: 0
-    })
-    .from(".about__bottom__wDo-title, .about__bottom__wTo-title, .about__bottom__wC-title", {
-        duration: 0.5,
-        opacity: 0
-    }, "-=.5")
-    .from(".about__bottom__wDo-text, .about__bottom__wTo-text, .about__bottom__wC-text", {
-        duration: 1,
-        opacity: 0,
-        y: 100,
-        ease: "power4.out"
-    })
+    // ab_tl.from(".about__bottom__wDo, .about__bottom__wTo, .about__bottom__wC", {
+    //     y: 150,
+    //     duration: 0.6,
+    //     stagger: 0.2,
+    //     opacity: 0
+    // })
+    // .from(".about__bottom__wDo-title, .about__bottom__wTo-title, .about__bottom__wC-title", {
+    //     duration: 0.5,
+    //     opacity: 0
+    // }, "-=.5")
+    // .from(".about__bottom__wDo-text, .about__bottom__wTo-text, .about__bottom__wC-text", {
+    //     duration: 1,
+    //     opacity: 0,
+    //     y: 100,
+    //     ease: "power4.out"
+    // })
 
     //Gallery section 
 

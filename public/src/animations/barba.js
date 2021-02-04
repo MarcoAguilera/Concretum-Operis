@@ -49,7 +49,12 @@ function home() {
                 opacity: 0,
                 duration: 1,
                 stagger: 0.3
-            });
+            })
+
+            .from(".service__title-load", {
+                width: 0,
+                duration: 2
+            }, "-=1.5");
         },
         "all": function() {
             gsap.from(".service__title", {
@@ -72,57 +77,20 @@ function home() {
         }
     });
 
-    a_tl.from(".about__top__back-img", {
-        x: -300,
+    a_tl.from(".about__top__title", {
         opacity: 0,
-        duration: 1.5
-    })
-    .from(".about__top__title", {
-        opacity: 0,
-        duration: 1.5,
-    });
-
-    // About bottom section timeline
-    let ab_tl = gsap.timeline({
-        scrollTrigger: {
-            trigger: ".about__bottom",
-            start: "top 84%"
-        }
-    });
-
-    ab_tl.from(".about__bottom__wDo, .about__bottom__wTo, .about__bottom__wC", {
-        y: 150,
-        duration: 0.6,
-        stagger: 0.2,
-        opacity: 0
-    })
-    .from(".about__bottom__wDo-title, .about__bottom__wTo-title, .about__bottom__wC-title", {
-        duration: 0.5,
-        opacity: 0
-    }, "-=.5")
-    .from(".about__bottom__wDo-text, .about__bottom__wTo-text, .about__bottom__wC-text", {
-        duration: 1,
-        opacity: 0,
-        y: 100,
-        ease: "power4.out"
-    })
-
-    //Gallery section 
-
-    let gb_tl = gsap.timeline({
-        scrollTrigger: {
-            trigger: ".gallery",
-            start: "top 70%"
-        }
-    });
-
-    gb_tl.to(".gallery", {duration: 1.5, opacity: 1, ease: "power2.out"}, 0);
+        duration: 2
+    },)
+    .from(".about__top-load", {
+        width: 0,
+        duration: 2
+    }, "-=1.5");
 }
 
 barba.use(barbaPrefetch);
 
 barba.init({
-    timeout: 5000,
+    timeout: 10000,
     transitions: [
         {
             name: "home",
@@ -175,7 +143,12 @@ barba.init({
         },
         {
             to: {
-                namespace: ['novato', 'san-rafael', 'stinson-beach', 'valencia-st']
+                namespace: ['edit']
+            }
+        },
+        {
+            to: {
+                namespace: ['project','novato', 'san-rafael', 'stinson-beach', 'valencia-st']
             },
             
             once({next}) {
@@ -204,7 +177,7 @@ barba.init({
         {
             name: "slide",
             from: {
-                namespace: ['login', 'contact', 'calander', 'upload', 'portfolio', 'novato', 'san-rafael', 'stinson-beach', 'valencia-st']
+                namespace: ['login', 'contact', 'calander', 'upload', 'portfolio', 'novato', 'san-rafael', 'stinson-beach', 'valencia-st', 'project']
             },
             to: {
                 namespace: ['home']

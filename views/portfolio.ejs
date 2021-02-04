@@ -8,55 +8,29 @@
         <%- include('header', {user: user}); -%>
         <main class="portfolio_body" data-barba="container" data-barba-namespace="portfolio">
             <div class="portfolio_back">
-                <div class="title">Portfolio</div>
+                <div class="title">Past Projects</div>
             </div>
+            <% if (projects.length == 0) { %>
+                <div>Comming Soon...</div>
+            <% } else { %>
             <div class="portfolio">
-                <a class="p1" href="/novato">
-                    <div class="novato">
-                        <img class="cover-img novato_img" src="/projects/novato/F.jpg">
+                <% projects.forEach(function(proj, index) { %>
+                <a href="/project/<%=helper.clean(proj.name)%>"> 
+                    <div class="edit__currentProjects-grid__project">
+                        <img class="cover-img edit__currentProjects-grid__project_img" src="data:image/<%=proj.homeImg.contentType%>;base64,
+                        <%=proj.homeImg.data.toString('base64')%>">
                         <div class="project_name">
-                            Indian Trail, Novato
+                            <%=proj.name%>
                         </div>
                         <div class="view_project">
                             View Project &#x000BB;
                         </div>
                     </div>
                 </a>
-                <a class="p2" href="/stinson-beach">
-                    <div class="stinson_beach">
-                        <img class="cover-img stinson_beach_img" src="/projects/stinson_beach/12_2x.jpg">
-                        <div class="project_name">
-                            Stinson Beach
-                        </div>
-                        <div class="view_project">
-                            View Project &#x000BB;
-                        </div>
-                    </div>
-                </a>
-                <a class="p3" href="/san-rafael">
-                    <div class="san-rafael">
-                        <img class="cover-img san-rafael_img" src="/projects/san-rafael/3.jpg">
-                        <div class="project_name">
-                            San Rafael
-                        </div>
-                        <div class="view_project">
-                            View Project &#x000BB;
-                        </div>
-                    </div>
-                </a>
-                <a class="p4" href="/valencia-st">
-                    <div class="valencia">
-                        <img class="cover-img valencia_img" src="/projects/valencia/5.jpg">
-                        <div class="project_name">
-                            Valencia St, San Francisco
-                        </div>
-                        <div class="view_project">
-                            View Project &#x000BB;
-                        </div>
-                    </div>
-                </a>
+                <% }) %>
             </div>
+            <% } %>
         </main>
+        <%- include('footer'); -%>
     </body>
-    <%- include('footer'); -%>
 </html>

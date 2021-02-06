@@ -46,7 +46,7 @@ ScrollTrigger.matchMedia({
             end: 99999,
             onUpdate: ({direction}) => {
                 if (direction == -1) {
-                    $('.request-popup').css({ top: '8.1rem' });
+                    $('.request-popup').css({ top: '8.1rem'});
                     navbar.classList.remove('hide-nav');
         
                 } else {

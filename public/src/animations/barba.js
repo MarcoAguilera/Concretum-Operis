@@ -143,7 +143,42 @@ barba.init({
         },
         {
             to: {
-                namespace: ['edit']
+                namespace: ['edit', 'edit-project']
+            },
+            once({next}) {
+
+                let snap_tl = gsap.timeline({paused: true});
+                snap_tl.to("#edit-input", {duration: 0.2, marginTop: 35, ease: Sine.easeInOut});
+                const tl = gsap.timeline();
+                
+                $(".delete-project__icon").hover(function() {
+                    console.log("ehllo");
+                    snap_tl.play();
+                }, function() {
+                    console.log("ehllo");
+                    snap_tl.reverse();
+                });
+                
+                tl.to(next.container, {duration: 1, opacity: 1}).delay(0.5);
+            },
+            leave({current}) {
+                const done = this.async();
+                gsap.to(current.container, {duration: 1, opacity: 0, onComplete: () => done()});
+            },
+            enter({next}) {
+                $(window).scrollTop(0);
+                let snap_tl = gsap.timeline({paused: true});
+                snap_tl.to("#edit-input", {duration: 0.2, marginTop: 35, ease: Sine.easeInOut});
+                const tl = gsap.timeline();
+
+                $(".delete-project__icon").hover(function() {
+                    snap_tl.play();
+                }, function() {
+                    snap_tl.reverse();
+                });
+                tl.to(next.container, {duration: 1, opacity: 1}).delay(0.2);
+                reloadJs("./src/edit-project.js");
+                reloadJs("./src/edit.js");
             }
         },
         {

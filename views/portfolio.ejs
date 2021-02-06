@@ -6,12 +6,12 @@
     </head>
     <body data-barba="wrapper">
         <%- include('header', {user: user}); -%>
-        <main class="portfolio_body" data-barba="container" data-barba-namespace="portfolio">
+        <main class="portfolio_body full_page" data-barba="container" data-barba-namespace="portfolio">
             <div class="portfolio_back">
                 <div class="title">Past Projects</div>
             </div>
             <% if (projects.length == 0) { %>
-                <div>Comming Soon...</div>
+                <div class="coming-soon-div">Projects Coming Soon...</div>
             <% } else { %>
             <div class="portfolio">
                 <% projects.forEach(function(proj, index) { %>

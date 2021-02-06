@@ -21,14 +21,16 @@ const passport = require("passport");
 const passportLocalMongoose = require('passport-local-mongoose');
 const { request } = require('http');
 const app = express();
-const sendMail = require(__dirname + '/public/src/mail.js');
+const methodOverride = require("method-override");
+const GridFsStorage = require("multer-gridfs-storage");
+const clean = require('./helper');
+const helper = require('./helper');
 
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const autheToken = process.env.TWILIO_AITH_TOKEN;
 const client = require('twilio')(accountSid, autheToken);
 
-app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -40,10 +42,14 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/project/:name", express.static(path.join(__dirname, "public")));
+app.use("/edit/:id", express.static(path.join(__dirname, "public")));
+app.use("/edit", express.static(path.join(__dirname, "public")));
 
 mongoose.connect(process.env.MON_PASS, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false, family: 4, poolSize: 10});
-mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // mongoose.connect("mongodb://localhost:27017/operisDB", {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
+mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 mongoose.set("useCreateIndex", true);
 
 const userSchema = new mongoose.Schema ({
@@ -60,14 +66,16 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// const imageSchema = new mongoose.Schema({
-//     title: String,
-//     desc: String,
-//     img: {
-//         data: Buffer,
-//         contentType: String
-//     }
-// });
+const imageSchema = new mongoose.Schema({
+    data: Buffer,
+    contentType: String,
+    project: String
+});
+
+const projectSchema = new mongoose.Schema({
+    name: String,
+    homeImg: imageSchema
+});
 
 const requestSchema = new mongoose.Schema({
     customer: String,
@@ -77,32 +85,23 @@ const requestSchema = new mongoose.Schema({
     date: {type: Date, default: Date.now}
 });
 
-// const Image = mongoose.model("Image", imageSchema);
-
+const Image = mongoose.model("Image", imageSchema);
+const Project = mongoose.model("Project", projectSchema);
 const Request = mongoose.model("Request", requestSchema);
 
-// var storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, path.join(__dirname, '/uploads/'))
-//     },
-//     filename: (req, file, cb) => {
-//         cb(null, file.filename + '-' + Date.now())
-//     }
-// });
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, path.join(__dirname, '/uploads'))
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname)
+    }
+});
 
-// var upload = multer({ storage: storage }); 
+var upload = multer({ storage: storage });
 
 app.get("/", function(req, res) {
     res.render("index", {user : req.isAuthenticated()});
-    // res.render("index", {user : req.isAuthenticated(), images : items});
-    // Image.find({}, (err, items) => { 
-    //     if (err) { 
-    //         console.log(err); 
-    //     } 
-    //     else { 
-    //          
-    //     } 
-    // });
 });
 
 app.post("/", function(req, res) {
@@ -125,22 +124,6 @@ app.post("/", function(req, res) {
 
     res.send('POST Handled');
 });
-
-// app.get('/upload', (req, res) => { 
-//     if (req.isAuthenticated()) {
-//         Image.find({}, (err, items) => { 
-//             if (err) { 
-//                 console.log(err); 
-//             } 
-//             else { 
-//                 res.render('upload', { items: items,  user: req.isAuthenticated() }); 
-//             } 
-//         }); 
-//     }
-//     else {
-//         res.redirect("/login");
-//     }
-// }); 
 
 app.get('/contact', function(req, res) {
     res.render("contact", {user : req.isAuthenticated()});
@@ -179,74 +162,176 @@ app.post('/contact', function(req, res) {
     });
 });
 
-// app.post('/new-image', upload.single('image'), (req, res, next) => { 
-//     if (req.isAuthenticated()) {
-//         var obj = { 
-//             title: req.body.name, 
-//             desc: req.body.desc, 
-//             img: { 
-//                 data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
-//                 contentType: 'image/png'
-//             } 
-//         } 
-//         Image.create(obj, (err, item) => { 
-//             if (err) { 
-//                 console.log(err); 
-//                 res.redirect("/upload")
-//             } 
-//             else { 
-//                 console.log("Image added to database");
-//                 res.redirect("/upload"); 
-//             }
-//         });
-//     }
-//     else {
-//         res.redirect("/login");
-//     }
-// }); 
+app.get("/edit", function(req, res) {
+    if(req.isAuthenticated()) {
+        Project.find({}, (err, projects) => { 
+            if (err) { 
+                console.log(err); 
+                res.redirect('/edit');
+            } 
+            else { 
+                // console.log(projects);
+                res.render('edit', {user : req.isAuthenticated(), projects: projects});
+            } 
+        }); 
+    }
+    else {
+        res.redirect("/login");
+    }
+});
 
-// app.post("/delete", function(req, res) {
-//     if (req.isAuthenticated()) {
-//         const imageID = req.body.img;
-//         Image.findByIdAndRemove(imageID, function(err) {
-//             if (!err) {
-//                 console.log("Successfully deleted image!");
-//             }
-//             else {
-//                 console.log(err);
-//             }
-//             res.redirect('/upload'); 
-//         });
-//     }
-//     else {
-//         res.redirect("/login");
-//     }
-// });
+app.get("/edit/:id", function(req, res) {
+    if(req.isAuthenticated()) {
+        Project.findById(req.params.id, function(err, project) {
+            if(err) {
+                console.log(err);
+                res.redirect("/edit");
+            }
+            else {
+                Image.find({'project' : project._id.toString()}, function(err, imgs) {
+                    if(err) {
+                        console.log(err);
+                        res.redirect('/edit');
+                    }
+                    else {
+                        console.log("Images found: " + imgs.length);
+                        res.render("edit-project", {user: req.isAuthenticated(), project: project, images: imgs});
+                    }
+                });
+            }
+        });
+    }
+    else {
+        res.redirect("/login");
+    }
+});
 
-// app.post("/edit", function(req, res) {
-//     if (req.isAuthenticated()) {
-//         var img = req.body.img
-//         var title = req.body.edittitle;
-//         var desc = req.body.editdesc;
+app.post("/edit/:id", function(req, res) {
+    if(req.isAuthenticated()) {
+        Project.findByIdAndDelete(req.params.id, function(err) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log("Successfully deleted project");
+            }
+            res.redirect("/edit");
+        });
+    }
+    else {
+        res.redirect("/login");
+    }
+});
 
-//         Image.update(
-//             {_id: img },
-//             {$set: {title: title, desc: desc}},
-//             function(err) {
-//                 if(!err) {
-//                     console.log("Successfully Updated!");
-//                 }
-//                 else {
-//                     console.log(err);
-//                 }
-//                 res.redirect("/upload");
-//             }
-//         );
-//     }
-//     else {
-//         res.redirect("/login");
-//     }
-// });
+app.post("/images/:id", function(req, res) {
+    
+    if(req.isAuthenticated()) {
+        Image.deleteMany({_id: {
+            $in: req.body.imgIds
+        }}, function(err) {
+            if(err) {
+                console.log(err);
+                res.redirect('/edit');
+            }
+            else {
+                console.log("Delete Successful!");
+                res.redirect("/edit/" + req.params.id);
+            }
+        });
+    } 
+    else {
+        res.redirect("/login");
+    }
+});
+
+app.post("/home/:id", upload.fields([{name: "newHomePhoto", maxCount: 1}]), function(req, res) {
+    if(req.isAuthenticated()) {
+        if (req.files.newHomePhoto) {
+            console.log("New photo");
+        }
+        else {
+            console.log("No photo!!!!!!!!!");
+        }
+        Project.findById(req.params.id, function (err, doc) {
+            if (err) {
+                console.log(err);
+                res.redirect("/edit/" + req.params.id);
+            }
+            else {
+                doc.name = req.body.projectName;
+                if (req.files.newHomePhoto) {
+                    doc.homeImg = {
+                        data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.files.newHomePhoto[0].filename)), 
+                        contentType: 'image/png',
+                        project: req.body.projectName
+                    }
+                }
+                doc.save(function(err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        console.log("Update successful.");
+                    }
+                    res.redirect("/edit/" + req.params.id);
+                });
+            }
+          });
+    }
+    else {
+        res.redirect("/login");
+    }
+});
+
+app.post("/edit", upload.fields([{
+    name: "homePhoto", maxCount: 1}, 
+    {name: "projectPhotos", maxCount: 300}]), 
+    function(req, res, next) {
+    
+    if(req.isAuthenticated()) {
+        var obj = {
+            name: req.body.projectName,
+            homeImg: {
+                data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.files.homePhoto[0].filename)), 
+                contentType: 'image/png',
+                project: req.body.projectName
+            }
+        };
+
+        Project.create(obj, (err, proj) => {
+            if(err) {
+                console.log(err);
+                res.redirect('/edit');
+            }
+            else {
+                console.log("New Project Successfully created");
+
+                var imgs = []
+        
+                for(i = 0; i < req.files.projectPhotos.length; i++) {
+                    var img = {
+                        data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.files.projectPhotos[i].filename)),
+                        contentType: 'image/png',
+                        project: proj._id
+                    }
+                    imgs.push(img);
+                }
+                Image.insertMany(imgs, function(err) {
+                    if(err) {
+                        console.log(err);
+                    }
+                    else {
+                        console.log("Images successfully created for project");
+                    }
+                    res.redirect('/edit');
+                });
+            }
+        });
+    }
+    else {
+        res.redirect('/login');
+    }
+});
 
 app.get("/admin-index", function(req, res) {
     if (req.isAuthenticated()) {
@@ -350,25 +435,41 @@ app.post("/request", function(req, res) {
     }
 });
 
-app.get("/portfolio", function(req, res) {
-    res.render("portfolio", {user: req.isAuthenticated()});
+app.get("/past-projects", function(req, res) {
+    Project.find({}, (err, projects) => { 
+        if (err) { 
+            console.log(err); 
+            res.redirect('/portfolio');
+        } 
+        else { 
+            console.log("Found Projects");
+            res.render('portfolio', {user : req.isAuthenticated(), projects: projects, helper: clean});
+        } 
+    }); 
 });
 
-app.get("/novato", function(req, res) {
-    res.render("novato", {user: req.isAuthenticated()});
+app.get("/project/:name", function(req, res) {
+    Project.findOne({'name' : helper.insertClean(req.params.name)}, function(err, project) {
+        if(err) {
+            console.log(err);
+            res.redirect('/past-projects');
+        } else {
+            Image.find({'project' : project._id.toString()}, function(err, imgs) {
+                if(err) {
+                    console.log(err);
+                    res.redirect('/past-projects');
+                }
+                else {
+                    console.log("Images found: " + imgs.length);
+                    res.render("project", {user : req.isAuthenticated(), project: project, images: imgs});
+                }
+            });
+        }        
+    });
 });
-
-app.get("/stinson-beach", function(req, res) {
-    res.render("stinson-beach", {user: req.isAuthenticated()});
-});
-
-app.get("/san-rafael", function(req, res) {
-    res.render("san-rafael", {user: req.isAuthenticated()});
-});
-
-app.get("/valencia-st", function(req, res) {
-    res.render("valencia-st", {user: req.isAuthenticated()});
-});
+// ******************************************
+// Leave incase we want to make a new account
+// ******************************************
 
 // app.get("/register", function(req, res) {
 //     res.render("register");
@@ -385,6 +486,10 @@ app.get("/valencia-st", function(req, res) {
 //         }
 //     });
 // });
+
+// ******************************************
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ******************************************
 
 app.use(function (req, res) {
     res.status(404).redirect('/');

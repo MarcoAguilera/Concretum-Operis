@@ -375,7 +375,7 @@ $breakpoint arguement choices:
   transition: ease 0.3s;
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2); }
   .nav_logo {
-    height: inherit;
+    height: 8rem;
     transform: translateY(5%) scale(1.3);
     margin-left: 1rem; }
   .nav_list {
@@ -408,7 +408,8 @@ $breakpoint arguement choices:
     outline-style: none; }
 
 .hide-nav {
-  opacity: 0; }
+  opacity: 0;
+  z-index: -1; }
 
 .mobile-nav {
   overflow: hidden;
@@ -449,18 +450,19 @@ $breakpoint arguement choices:
   justify-content: space-evenly;
   z-index: 179;
   background-color: #fddb3a;
+  margin-right: 1rem;
   right: 0;
   top: 0;
   left: unset;
   bottom: unset;
   flex-direction: row;
-  height: 8.5rem;
+  height: 8.2rem;
   width: 12rem;
   background-color: transparent; }
 
 .social {
   display: inline-block;
-  width: 2.5rem;
+  height: 4rem;
   padding: 1rem 0; }
   .social path {
     fill: white;
@@ -1508,8 +1510,8 @@ $breakpoint arguement choices:
       height: 2rem;
       width: calc(100% - 1rem); }
       .calander__card__apps__app-1, .calander__card__apps__app-2, .calander__card__apps__app-3, .calander__card__apps__app-4 {
-        height: 2.5rem;
-        width: 2.5rem;
+        height: 2.1rem;
+        width: 2.1rem;
         border-radius: 50%;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.479);
         color: white;
@@ -1765,7 +1767,8 @@ $breakpoint arguement choices:
 
 .cover-img {
   object-fit: cover;
-  width: 100%; }
+  width: 100%;
+  height: 100%; }
 
 .project_name {
   position: absolute;
@@ -1837,6 +1840,22 @@ $breakpoint arguement choices:
 
 .portfolio_body {
   opacity: 0; }
+
+.coming-soon-div {
+  padding: 4rem 0;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Big Shoulders Display', cursive;
+  font-size: 7rem;
+  font-weight: bold;
+  color: white;
+  height: max-content;
+  width: max-content; }
+
+.full_page {
+  min-height: calc(100vh - 8rem);
+  background-color: #1e1c19; }
 
 .intro {
   position: fixed;
@@ -1984,11 +2003,15 @@ $breakpoint arguement choices:
   width: 100%; }
   .edit__currentProjects {
     width: 100%;
-    background-color: cadetblue;
+    background-color: #1e1c19;
     padding: 5rem; }
     .edit__currentProjects-title {
-      color: black;
-      text-align: center; }
+      color: white;
+      text-align: center;
+      font-size: 6.5rem;
+      font-family: 'Montserrat', sans-serif;
+      margin-bottom: 3rem;
+      font-weight: bold; }
     .edit__currentProjects-grid {
       width: 100%;
       display: flex;
@@ -2011,3 +2034,260 @@ $breakpoint arguement choices:
           transform: scale(1.02);
           cursor: pointer;
           opacity: 0.6; }
+  .edit__newProjects {
+    text-align: center;
+    background-color: #1e1c19;
+    padding-bottom: 5rem; }
+    .edit__newProjects-title {
+      color: white;
+      text-align: center;
+      font-size: 5rem;
+      font-family: 'Montserrat', sans-serif;
+      margin-bottom: 3rem;
+      font-weight: bold; }
+
+.form_submit {
+  background-color: #36a552;
+  border: none;
+  color: white;
+  padding: .5rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.6rem;
+  width: 15rem;
+  border-radius: 4px;
+  cursor: pointer; }
+
+.form_element__projName-input {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid #fddb3a;
+  background-color: #f9f9f9;
+  width: 25rem;
+  height: 2rem;
+  padding: .5rem; }
+
+.form_element__projName-input:focus {
+  outline: none; }
+
+.form_element__homePhoto-input {
+  display: none; }
+
+.form_element__homePhoto-button {
+  background-color: #4196c7;
+  border: none;
+  color: white;
+  padding: .5rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.6rem;
+  width: 15rem;
+  border-radius: 4px;
+  cursor: pointer; }
+  .form_element__homePhoto-button__photo {
+    width: 1.6rem;
+    transform: translateY(-10%); }
+
+.form_element__projectPhotos-input {
+  display: none; }
+
+.form_element__projectPhotos-button {
+  background-color: #4196c7;
+  border: none;
+  color: white;
+  padding: .5rem;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1.6rem;
+  width: 15rem;
+  border-radius: 4px;
+  cursor: pointer; }
+  .form_element__projectPhotos-button__photo {
+    width: 2rem;
+    transform: translateY(-10%); }
+
+.form_element-name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  color: white;
+  font-size: 2rem;
+  font-size: 2.7rem; }
+
+#previewDiv {
+  display: none;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%); }
+
+#uploadForm {
+  padding-bottom: 5rem; }
+
+#show {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  width: 70%;
+  height: 40rem;
+  overflow-y: auto;
+  border-radius: 5px;
+  border: 2px solid lightgray;
+  display: none;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding: 2rem; }
+
+.show-imgs {
+  height: 20rem;
+  margin: 1rem;
+  transition: all .2s; }
+
+.show-imgs:hover {
+  cursor: pointer; }
+
+.removeSelect {
+  border: 2px solid red; }
+
+.rotate90 {
+  transform: rotate(90deg); }
+
+.mg-b-2 {
+  margin-bottom: 2rem; }
+
+.mg-t-2 {
+  margin-top: 1rem; }
+
+.final_submit {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
+.edit-project {
+  background-color: #1e1c19;
+  position: relative;
+  padding-top: 14rem;
+  min-height: 100vh; }
+  .edit-project__button {
+    border: none;
+    color: white;
+    padding: .5rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1.6rem;
+    width: 15rem;
+    border-radius: 4px;
+    transform: all .2s; }
+  .edit-project__button:focus {
+    outline: none; }
+  .edit-project__button:hover {
+    cursor: pointer; }
+  .edit-project__mainImg {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly; }
+    .edit-project__mainImg-source {
+      width: 3rem; }
+    .edit-project__mainImg-uploaded {
+      display: none; }
+  .edit-project__form {
+    text-align: center; }
+    .edit-project__form-title {
+      color: white;
+      position: relative;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 6rem;
+      text-transform: uppercase; }
+  .edit-project-relative {
+    position: relative !important;
+    font-size: 7rem;
+    background-color: #1e1c19;
+    pointer-events: all !important;
+    outline: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom-style: 3px solid white; }
+  .edit-project__images {
+    padding: 1rem 3rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center; }
+    .edit-project__images-img {
+      height: 20rem; }
+    .edit-project__images-div {
+      margin: 1rem; }
+  .edit-project__navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 3rem;
+    border-radius: 3px;
+    background-color: transparent; }
+    .edit-project__navbar-1 {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 3rem;
+      border-radius: 3px;
+      background-color: transparent; }
+
+.delete-project {
+  width: min-content;
+  overflow: hidden;
+  position: relative;
+  left: 47%;
+  top: 10%;
+  height: min-content;
+  width: min-content; }
+  .delete-project__icon {
+    width: 7rem;
+    padding: 1rem; }
+  .delete-project__icon:hover {
+    cursor: pointer; }
+
+.deleteProjPopup {
+  display: none;
+  position: fixed;
+  top: calc(50% + 8rem);
+  left: 50%;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.835);
+  transform: translate(-50%, -50%); }
+  .deleteProjPopup-check {
+    position: absolute;
+    left: 50%;
+    top: 43%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 37rem;
+    height: 13.5rem;
+    border-radius: 4px;
+    padding: 1rem;
+    text-align: center; }
+    .deleteProjPopup-check__title {
+      font-size: 2rem; }
+    .deleteProjPopup-check__flex {
+      display: flexbox;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center; }
+
+.transform_to_middle {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%); }
+
+.toggleDiv {
+  height: 0;
+  overflow: hidden; }

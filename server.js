@@ -47,7 +47,7 @@ app.use("/project/:name", express.static(path.join(__dirname, "public")));
 app.use("/edit/:id", express.static(path.join(__dirname, "public")));
 app.use("/edit", express.static(path.join(__dirname, "public")));
 
-mongoose.connect(process.env.MON_PASS, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false, family: 4, poolSize: 10});
+mongoose.connect(process.env.MON_PASS, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
 // mongoose.connect("mongodb://localhost:27017/operisDB", {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 mongoose.set("useCreateIndex", true);
@@ -376,10 +376,10 @@ app.get("/request", function(req, res) {
         var startDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay().toString();
         var daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 
-        var x = new Array(daysInMonth + 1);
+        var x = new Array();
 
-        for (var i = 0; i < x.length; i++) {
-            x[i] = new Array();
+        for (var i = 0; i < (daysInMonth + 1); i++) {
+            x.push(new Array());
         }
 
         Request.find({}, (err, requests) => {
@@ -388,12 +388,10 @@ app.get("/request", function(req, res) {
                 res.redirect("/request");
             }
             else {
-                if (requests.length > 0) {
-                    requests.forEach(r => {
-                        x[r.date.getDate()].push(r);
-                    });
-                }
-
+                // requests.forEach(r => {
+                //     x[r.date.getDate()].push(r);
+                // });
+                
                 res.render("request", {requests: x, daysInMonth: daysInMonth, startDay: startDay, currentDay: date.getDate(), month: months[date.getMonth()], year: date.getFullYear(), user: req.isAuthenticated()});
             }
         });

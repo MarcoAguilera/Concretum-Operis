@@ -388,9 +388,11 @@ app.get("/request", function(req, res) {
                 res.redirect("/request");
             }
             else {
-                requests.forEach(r => {
-                    x[r.date.getDate()].push(r);
-                });
+                if (requests.length > 0) {
+                    requests.forEach(r => {
+                        x[r.date.getDate()].push(r);
+                    });
+                }
 
                 res.render("request", {requests: x, daysInMonth: daysInMonth, startDay: startDay, currentDay: date.getDate(), month: months[date.getMonth()], year: date.getFullYear(), user: req.isAuthenticated()});
             }

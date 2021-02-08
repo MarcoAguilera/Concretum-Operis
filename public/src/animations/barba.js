@@ -49,12 +49,12 @@ function home() {
                 opacity: 0,
                 duration: 1,
                 stagger: 0.3
-            })
+            });
 
-            .from(".service__title-load", {
-                width: 0,
-                duration: 2
-            }, "-=1.5");
+            // .from(".service__title-load", {
+            //     width: 0,
+            //     duration: 2
+            // }, "-=1.5");
         },
         "all": function() {
             gsap.from(".service__title", {
@@ -65,6 +65,15 @@ function home() {
                 opacity: 0,
                 y: 100,
                 duration: 1
+            });
+
+            gsap.from(".service__title-load", {
+                scrollTrigger: {
+                    trigger: ".service__title",
+                    start: "center center"
+                },
+                width: 0,
+                duration: 2, delay: 0.8
             });
         }
     });

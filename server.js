@@ -124,7 +124,6 @@ app.post("/", function(req, res) {
 });
 
 app.get('/contact', function(req, res) {
-    fsExtra.emptyDirSync(path.join(__dirname, '/uploads'));
     res.render("contact", {user : req.isAuthenticated()});
 });
 
@@ -260,7 +259,6 @@ app.post("/home/:id", upload.fields([{name: "newHomePhoto", maxCount: 1}]), func
                     else {
                         console.log("Update successful.");
                     }
-                    emptyDirSync(path.join(__dirname, '/uploads'));
                     res.redirect("/edit/" + req.params.id);
                 });
             }
@@ -311,7 +309,6 @@ app.post("/edit", upload.fields([{
                     else {
                         console.log("Images successfully created for project");
                     }
-                    emptyDirSync(path.join(__dirname, '/uploads'));
                     res.redirect('/edit');
                 });
             }

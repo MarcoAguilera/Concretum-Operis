@@ -12,17 +12,15 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const fs = require("fs");
-const fsExtra = require('fs-extra');
+const { emptyDirSync } = require('fs-extra');
 const multer = require("multer");
 const mongoose = require("mongoose");
 const encrypt = require("mongoose-encryption");
 const session = require("express-session");
 const passport = require("passport");
 const passportLocalMongoose = require('passport-local-mongoose');
-const { request } = require('http');
 const app = express();
-const methodOverride = require("method-override");
-const GridFsStorage = require("multer-gridfs-storage");
+const { convertToTimeZone } = require("date-fns-timezone"); 
 const clean = require('./helper');
 const helper = require('./helper');
 
@@ -126,29 +124,19 @@ app.post("/", function(req, res) {
 });
 
 app.get('/contact', function(req, res) {
+    fsExtra.emptyDirSync(path.join(__dirname, '/uploads'));
     res.render("contact", {user : req.isAuthenticated()});
 });
 
 app.post('/contact', function(req, res) {
-    
-    function changeTimezone(date) {
-        var invdate = new Date(date.toLocaleString('en-US'));
-        var diff = date.getTime() - invdate.getTime();
-
-        return new Date(date.getTime() - diff); // needs to substract
-    }
-
-    var here = new Date();
-    var there = changeTimezone(here);
-
-    console.log(there.toLocaleString());
+    const t = convertToTimeZone(new Date(), {timeZone: 'America/Los_Angeles'});
 
     const obj = new Request({ 
         customer: req.body.firstName + " " + req.body.lastName,
         email: req.body.email,
         phone: req.body.phoneNumber,
         message: req.body.text,
-        date: there
+        date: t
     });
 
     obj.save(function (err) {
@@ -170,7 +158,6 @@ app.get("/edit", function(req, res) {
                 res.redirect('/edit');
             } 
             else { 
-                // console.log(projects);
                 res.render('edit', {user : req.isAuthenticated(), projects: projects});
             } 
         }); 
@@ -273,6 +260,7 @@ app.post("/home/:id", upload.fields([{name: "newHomePhoto", maxCount: 1}]), func
                     else {
                         console.log("Update successful.");
                     }
+                    emptyDirSync(path.join(__dirname, '/uploads'));
                     res.redirect("/edit/" + req.params.id);
                 });
             }
@@ -323,6 +311,7 @@ app.post("/edit", upload.fields([{
                     else {
                         console.log("Images successfully created for project");
                     }
+                    emptyDirSync(path.join(__dirname, '/uploads'));
                     res.redirect('/edit');
                 });
             }
@@ -369,10 +358,8 @@ app.post("/login", function(req, res) {
 
 app.get("/request", function(req, res) {
     if (req.isAuthenticated()) {
-        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];;
-        var date = new Date();
-        date = new Date(date.toLocaleString('en-US'));
-
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var date = convertToTimeZone(new Date(), {timeZone: 'America/Los_Angeles'});
         var startDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay().toString();
         var daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 
@@ -381,6 +368,8 @@ app.get("/request", function(req, res) {
         for (var i = 0; i < (daysInMonth + 1); i++) {
             x.push(new Array());
         }
+        
+        console.log(x);
 
         Request.find({}, (err, requests) => {
             if (err) {
@@ -388,9 +377,11 @@ app.get("/request", function(req, res) {
                 res.redirect("/request");
             }
             else {
-                // requests.forEach(r => {
-                //     x[r.date.getDate()].push(r);
-                // });
+                requests.forEach(r => {
+                    if (r.date.getDate() <= daysInMonth) {
+                        x[r.date.getDate()].push(r);
+                    }
+                });
                 
                 res.render("request", {requests: x, daysInMonth: daysInMonth, startDay: startDay, currentDay: date.getDate(), month: months[date.getMonth()], year: date.getFullYear(), user: req.isAuthenticated()});
             }

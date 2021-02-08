@@ -2283,6 +2283,17 @@ $breakpoint arguement choices:
       align-items: center;
       justify-content: center; }
 
+.new_images_div {
+  padding: 1rem 3rem;
+  display: none;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center; }
+  .new_images_div-img {
+    height: 20rem; }
+  .new_images_div-div {
+    margin: 1rem; }
+
 .transform_to_middle {
   position: relative;
   left: 50%;

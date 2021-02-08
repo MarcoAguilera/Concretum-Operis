@@ -37,6 +37,38 @@ function deselectAll() {
     $(".edit-project__navbar-delete").text("Delete Images: 0");
 }
 
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+
+function showNewImgs(files) {
+    var divShow = document.getElementById("new_imagesID");
+    var formButton = document.getElementById("new_imagesID--button");
+
+    removeAllChildNodes(divShow);
+    $(divShow).css("display", "flex");
+    $(formButton).css("display", "inline");
+    var img = Array.from(files);
+    console.log(img);
+
+    for(i = 0; i < files.length; i++) {
+
+        var new_img = document.createElement("img");
+        var new_div = document.createElement("div");
+        new_img.src = window.URL.createObjectURL(files[i]);
+        // $(new_img).click(function() {
+        //     $(this).toggleClass("removeSelect");
+        // });
+        new_img.className = "new_images_div-img"
+        new_div.className = "new_images_div-div"
+
+        new_div.appendChild(new_img);
+        divShow.appendChild(new_div);
+    }
+}
+
 function openExplore() {
     $(".edit-project__mainImg-uploaded").trigger("click");
 }
@@ -64,7 +96,7 @@ function imagesChanges() {
     var selected = document.getElementsByClassName("removeSelect");
 
     if (selected.length > 0) {
-        var form = document.getElementsByClassName("edit-project__form")[0];
+        var form = document.getElementById("finalDeleteForm");
         for(i = 0; i < selected.length; i++) {
             var input = document.createElement("input");
             input.name = "imgIds[]";

@@ -42,7 +42,19 @@
                 <button style="background-color: #28a745; margin: 3rem 0;" class="edit-project__button edit-project__button-stay transform_to_middle" type="submit">Save Changes</button>
             </form>
             <hr class="transform_to_middle" style="background-color: white; width: 80%; margin-top: 0; height: 1px;">
-            <form class="edit-project__form" action="/images/<%=project._id%>" method="post">
+
+            <form class="edit-project__form" action="/add-new-images/<%=project._id%>" method="post" enctype="multipart/form-data">
+                <h2 class="edit-project__form-title">Add New Images</h2>
+                <div class="form_element__projectPhotos-div">
+                    <input class="form_element__projectPhotos-input" onchange="showNewImgs(this.files)" type="file" name="projectPhotos" multiple required><br>
+                    <button onclick="openInput('.form_element__projectPhotos-input')" class="form_element__projectPhotos-button mg-b-2" type="button"><img class="form_element__homePhoto-button__photo" src="./img/image-gallery.svg"> Select Images</button>
+                </div>
+                <div id="new_imagesID" class="new_images_div"></div>
+                <button id="new_imagesID--button" style="background-color: #3748e0; display: none;" class="edit-project__navbar-deselect edit-project__button mg-b-2" type="submit">Add Images</button>
+            </form>
+            <hr class="transform_to_middle" style="background-color: white; width: 80%; margin-top: 0; height: 1px;">
+
+            <form id="finalDeleteForm" class="edit-project__form" action="/images/<%=project._id%>" method="post">
                 <h2 class="edit-project__form-title">Edit Images</h2>
                 <div class="edit-project__navbar">
                     <button style="background-color: #ca1a1a;" onclick="imagesChanges()" class="edit-project__navbar-delete edit-project__button" type="button">Delete Images: 0</button>

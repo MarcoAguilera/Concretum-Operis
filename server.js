@@ -45,8 +45,8 @@ app.use("/project/:name", express.static(path.join(__dirname, "public")));
 app.use("/edit/:id", express.static(path.join(__dirname, "public")));
 app.use("/edit", express.static(path.join(__dirname, "public")));
 
-mongoose.connect(process.env.MON_PASS, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
-// mongoose.connect("mongodb://localhost:27017/operisDB", {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
+// mongoose.connect(process.env.MON_PASS, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
+mongoose.connect("mongodb://localhost:27017/operisDB", {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 mongoose.set("useCreateIndex", true);
 
@@ -200,6 +200,15 @@ app.post("/edit/:id", function(req, res) {
             }
             else {
                 console.log("Successfully deleted project");
+
+                Image.deleteMany({ project: req.params.id }, function (err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        console.log("Delete images attached to project");
+                    }
+                });
             }
             res.redirect("/edit");
         });
@@ -212,6 +221,7 @@ app.post("/edit/:id", function(req, res) {
 app.post("/images/:id", function(req, res) {
     
     if(req.isAuthenticated()) {
+        console.log(req.body);
         Image.deleteMany({_id: {
             $in: req.body.imgIds
         }}, function(err) {
@@ -316,6 +326,33 @@ app.post("/edit", upload.fields([{
     }
     else {
         res.redirect('/login');
+    }
+});
+
+app.post("/add-new-images/:id", upload.fields([{name: "projectPhotos", maxCount: 300}]), function(req, res) {
+    if (req.isAuthenticated()) {
+        var imgs = [];
+
+        for(i = 0; i < req.files.projectPhotos.length; i++) {
+            var img = {
+                data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.files.projectPhotos[i].filename)),
+                contentType: 'image/png',
+                project: req.params.id
+            }
+            imgs.push(img);
+        }
+        Image.insertMany(imgs, function(err) {
+            if(err) {
+                console.log(err);
+            }
+            else {
+                console.log("Images successfully created for project");
+            }
+            res.redirect('/edit/' + req.params.id);
+        });
+    }
+    else {
+        res.redirect("/login");
     }
 });
 

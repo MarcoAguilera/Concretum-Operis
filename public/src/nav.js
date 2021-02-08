@@ -42,7 +42,7 @@ var navbar  = document.querySelector('.nav');
 ScrollTrigger.matchMedia({
     "(min-width: 570px)" : function() {
         ScrollTrigger.create({
-            start: "top",
+            start: "80px top",
             end: 99999,
             onUpdate: ({direction}) => {
                 if (direction == -1) {

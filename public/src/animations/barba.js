@@ -36,6 +36,30 @@ function home() {
                 opacity: 0,
                 duration: 1
             });
+            gsap.from(".service__card--4", {
+                scrollTrigger: {
+                    trigger: ".service__card--4",
+                    start: "top center"
+                },
+                opacity: 0,
+                duration: 1
+            });
+            gsap.from(".service__card--5", {
+                scrollTrigger: {
+                    trigger: ".service__card--5",
+                    start: "top center"
+                },
+                opacity: 0,
+                duration: 1
+            });
+            gsap.from(".service__card--6", {
+                scrollTrigger: {
+                    trigger: ".service__card--6",
+                    start: "top center"
+                },
+                opacity: 0,
+                duration: 1
+            });
         },
         "(min-width: 750px)": function() {
             let tl = gsap.timeline({

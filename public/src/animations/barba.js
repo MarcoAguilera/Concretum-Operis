@@ -85,6 +85,34 @@ function home() {
         width: 0,
         duration: 2
     }, "-=1.5");
+
+    gsap.from(".about__bottom-1", {
+        scrollTrigger: {
+            trigger: ".about__bottom-1",
+            start: "top center"
+        },
+        opacity: 0,
+        duration: 1
+    });
+
+    gsap.from(".about__bottom-2", {
+        scrollTrigger: {
+            trigger: ".about__bottom-2",
+            start: "top center"
+        },
+        opacity: 0,
+        duration: 1
+    });
+
+    gsap.from(".about__bottom-3", {
+        scrollTrigger: {
+            trigger: ".about__bottom-3",
+            start: "top center"
+        },
+        opacity: 0,
+        duration: 1
+    });
+    
 }
 
 barba.use(barbaPrefetch);

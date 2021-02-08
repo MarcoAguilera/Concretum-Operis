@@ -59,11 +59,12 @@ function home() {
     // About top section timeline
     // let a_tl = gsap.timeline({
     //     scrollTrigger: {
-    //         trigger: ".about__top",
+    //         trigger: ".about__bottom",
     //         start: "top center"
     //     }
     // });
 
+    // a_tl.from(".about__bottom-1",{opacity: 0, duration: 1});
     // a_tl.from(".about__top__back-img", {
     //     x: -300,
     //     opacity: 0,
@@ -98,17 +99,6 @@ function home() {
     //     y: 100,
     //     ease: "power4.out"
     // })
-
-    //Gallery section 
-
-    let gb_tl = gsap.timeline({
-        scrollTrigger: {
-            trigger: ".gallery",
-            start: "65% 70%"
-        }
-    });
-
-    gb_tl.to(".gallery", {duration: 1.5, opacity: 1, ease: "power2.out"}, 0);
 }
 
 export {home as default};

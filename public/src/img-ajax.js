@@ -6,6 +6,7 @@ window.onscroll = function(ev) {
     if (((window.innerHeight + window.scrollY) >= document.body.scrollHeight) && foundAll == false) {
         // you're at the bottom of the page
         var url_imgs = '/more_imgs/' + id + "/"+ page;
+        // $(".loading_svg").show();
         $.ajax( {
             url: url_imgs,
             type: "POST",
@@ -24,5 +25,6 @@ window.onscroll = function(ev) {
                 alert("Ajax not successful");
             }
         });
+        // $(".loading_svg").hide();
     }
 };

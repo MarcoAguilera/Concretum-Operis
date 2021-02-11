@@ -2083,6 +2083,14 @@ $breakpoint arguement choices:
   width: auto;
   text-align: center; }
 
+.loading_svg {
+  display: none;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 2rem;
+  height: 3rem; }
+
 .edit {
   position: absolute;
   top: 8rem;

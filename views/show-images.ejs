@@ -1,0 +1,11 @@
+<% images.forEach(function(img, index) { %>
+<% if (index % 2 == 0) {%>
+    <div class="photo-container l-photo">
+        <img class="project-root__gallery-photo" src="data:image/<%=img.contentType%>;base64,<%=img.data.toString('base64')%>">
+    </div>
+<%} else { %>
+    <div class="photo-container r-photo">
+        <img class="project-root__gallery-photo" src="data:image/<%=img.contentType%>;base64,<%=img.data.toString('base64')%>">
+    </div>
+<%}%>       
+<% }) %>    

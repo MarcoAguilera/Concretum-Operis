@@ -23,6 +23,7 @@ const app = express();
 const { convertToTimeZone } = require("date-fns-timezone"); 
 const clean = require('./helper');
 const helper = require('./helper');
+const ejs = require("ejs");
 
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -45,8 +46,8 @@ app.use("/project/:name", express.static(path.join(__dirname, "public")));
 app.use("/edit/:id", express.static(path.join(__dirname, "public")));
 app.use("/edit", express.static(path.join(__dirname, "public")));
 
-mongoose.connect(process.env.MON_PASS, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
-// mongoose.connect("mongodb://localhost:27017/operisDB", {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
+// mongoose.connect(process.env.MON_PASS, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
+mongoose.connect("mongodb://localhost:27017/operisDB", {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 mongoose.set("useCreateIndex", true);
 
@@ -479,7 +480,7 @@ app.get("/project/:name", function(req, res) {
             console.log(err);
             res.redirect('/past-projects');
         } else {
-            Image.find({'project' : project._id.toString()}, function(err, imgs) {
+            Image.find({'project' : project._id.toString()},{}, {skip: (10 * (1 - 1)), limit: 10}, function(err, imgs) {
                 if(err) {
                     console.log(err);
                     res.redirect('/past-projects');
@@ -487,6 +488,40 @@ app.get("/project/:name", function(req, res) {
                 else {
                     console.log("Images found: " + imgs.length);
                     res.render("project", {user : req.isAuthenticated(), project: project, images: imgs});
+                }
+            });
+        }        
+    });
+});
+
+app.post("/more_imgs/:id/:page", function(req, res) {
+    Project.findOne({'_id' : helper.insertClean(req.params.id)}, function(err, project) {
+        if(err) {
+            console.log(err);
+            // res.redirect('/past-projects');
+        } else {
+            Image.find({'project' : project._id.toString()},{}, {skip: (10 * (req.params.page - 1)), limit: 10}, function(err, imgs) {
+                if(err) {
+                    console.log(err);
+                    // res.redirect('/past-projects');
+                }
+                else {
+                    console.log("Images found: " + imgs.length + ", Page: " + req.params.page);
+
+                    if (imgs.length == 0) {
+                        res.send({html: null});
+                    }
+                    else {
+                        try {
+                            var fixture_template = ejs.compile(fs.readFileSync("./views/show-images.ejs", 'utf8'));
+                            var html = fixture_template({images: imgs});
+        
+                            res.send({html: html});
+                        }
+                        catch (err) {
+                            res.redirect("/past-projects");
+                        }
+                    }
                 }
             });
         }        

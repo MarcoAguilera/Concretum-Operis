@@ -6,14 +6,14 @@
     </head>
     <body data-barba="wrapper">
         <%- include('header', {user: user}); -%>
-        <main class="portfolio_body full_page" data-barba="container" data-barba-namespace="portfolio">
+        <main class="portfolio_body full_page" data-barba="container" data-barba-namespace="portfolio" >
             <div class="portfolio_back">
                 <div class="title">Past Projects</div>
             </div>
             <% if (projects.length == 0) { %>
                 <div class="coming-soon-div">Projects Coming Soon...</div>
             <% } else { %>
-            <div class="portfolio">
+            <div class="portfolio" data-barba-prevent="all">
                 <% projects.forEach(function(proj, index) { %>
                 <a href="/project/<%=helper.clean(proj.name)%>"> 
                     <div class="edit__currentProjects-grid__project">

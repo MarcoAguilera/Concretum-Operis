@@ -7,23 +7,47 @@
     <body data-barba="wrapper">
         <%- include('header', {user: user}); -%>
         <main class="portfolio_body" data-barba="container" data-barba-namespace="project">
+            <input style="display: none;" id="projectPortId" type="text" value="<%=project._id%>">
             <div class="project-root">
                 <h2 class="word-wrap project-root__title"><%=project.name%></h2>
                 <div class="project-root__gallery">
-                    <% images.forEach(function(img, index) { %>
-                    <% if (index % 2 == 0) {%>
-                        <div class="photo-container l-photo">
-                            <img class="project-root__gallery-photo" src="data:image/<%=img.contentType%>;base64,<%=img.data.toString('base64')%>">
-                        </div>
-                    <%} else { %>
-                        <div class="photo-container r-photo">
-                            <img class="project-root__gallery-photo" src="data:image/<%=img.contentType%>;base64,<%=img.data.toString('base64')%>">
-                        </div>
-                    <%}%>       
-                    <% }) %>    
+                    <%- include('show-images.ejs', {images: images}); -%>
                 </div>
+                <img class="loading_svg" src="./img/three-dots.svg">
             </div>
         </main>
+        <script>
+            var page = 2;
+            var foundAll = false;
+            var id = $("#projectPortId").val();
+
+            window.onscroll = function(ev) {
+                if (((window.innerHeight + window.scrollY) >= document.body.scrollHeight) && foundAll == false) {
+                    // you're at the bottom of the page
+                    var url_imgs = '/more_imgs/' + id + "/"+ page;
+                    $(".loading_svg").show();
+                    $.ajax( {
+                        url: url_imgs,
+                        type: "POST",
+                        contentType: 'application/json',
+                        async: false,
+                        success: function(res) {
+                            if (res['html'] == null) {
+                                foundAll = true;
+                            }
+                            else {
+                                $('.project-root__gallery').append(res['html']);
+                                page = page + 1;
+                            }
+                        },
+                        error: function() {
+                            alert("Ajax not successful");
+                        }
+                    });
+                    $(".loading_svg").hide();
+                }
+            };
+        </script>
         <%- include('footer'); -%>
     </body>
 </html>

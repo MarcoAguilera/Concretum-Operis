@@ -7,6 +7,13 @@ function reloadJs(src) {
     $('<script/>').attr('src', src).appendTo('footer');
 }
 
+// function insertScript(src) {
+//     var s = document.createElement('script');
+
+//     s.setAttribute('src', src);
+//     document.body.appendChild(s);
+// }
+
 function home() {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -258,7 +265,7 @@ barba.init({
                 const done = this.async();
                 gsap.to(current.container, {duration: 1, opacity: 0, onComplete: () => done()});
             },
-            beforeEnter: ({next}) => $(window).scrollTop(0),
+            beforeEnter: ({next}) => {$(window).scrollTop(0)},  
             enter({next}){
                 $(window).scrollTop(0);
                 const tl = gsap.timeline();

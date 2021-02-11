@@ -18,6 +18,8 @@ window.onscroll = function(ev) {
                 }
                 else {
                     $('.project-root__gallery').append(res['html']);
+                    $('.project-root__gallery').hide();
+                    $('.project-root__gallery').show();
                     page = page + 1;
                 }
             },

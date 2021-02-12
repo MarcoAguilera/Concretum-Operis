@@ -17,7 +17,7 @@
                     <% } else { %>
                         <h2 class="edit__currentProjects-title">No Projects Currently</h2>
                     <% } %>
-                    <div class="edit__currentProjects-grid">
+                    <div class="edit__currentProjects-grid" data-barba-prevent="all">
                             <% projects.forEach(function(proj, index) { %>
                             <a href="/edit/<%=proj._id%>">
                                 <div class="edit__currentProjects-grid__project">

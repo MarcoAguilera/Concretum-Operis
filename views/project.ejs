@@ -7,13 +7,13 @@
     <body data-barba="wrapper">
         <%- include('header', {user: user}); -%>
         <main class="portfolio_body" data-barba="container" data-barba-namespace="project">
+            <img class="loading_svg" src="./img/loading.svg">
             <input style="display: none;" id="projectPortId" type="text" value="<%=project._id%>">
             <div class="project-root">
                 <h2 class="word-wrap project-root__title"><%=project.name%></h2>
                 <div class="project-root__gallery">
                     <%- include('show-images.ejs', {images: images}); -%>
                 </div>
-                <!-- <img class="loading_svg" src="./img/three-dots.svg"> -->
             </div>
         </main>
         <script type="text/javascript" src="./src/img-ajax.js"></script>

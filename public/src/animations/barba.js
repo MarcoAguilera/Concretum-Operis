@@ -67,6 +67,50 @@ function home() {
                 opacity: 0,
                 duration: 1
             });
+
+            // About top section timeline
+            let a_tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".about__top",
+                    start: "top center"
+                }
+            });
+
+            a_tl.from(".about__top__title", {
+                opacity: 0,
+                duration: 2
+            },)
+            .from(".about__top-load", {
+                width: 0,
+                duration: 2
+            }, "-=1.5");
+
+            gsap.from(".about__bottom-1", {
+                scrollTrigger: {
+                    trigger: ".about__bottom-1",
+                    start: "top center"
+                },
+                opacity: 0,
+                duration: 1
+            });
+
+            gsap.from(".about__bottom-2", {
+                scrollTrigger: {
+                    trigger: ".about__bottom-2",
+                    start: "top center"
+                },
+                opacity: 0,
+                duration: 1
+            });
+
+            gsap.from(".about__bottom-3", {
+                scrollTrigger: {
+                    trigger: ".about__bottom-3",
+                    start: "top center"
+                },
+                opacity: 0,
+                duration: 1
+            });
         },
         "(min-width: 750px)": function() {
             let tl = gsap.timeline({
@@ -82,10 +126,34 @@ function home() {
                 stagger: 0.3
             });
 
-            // .from(".service__title-load", {
-            //     width: 0,
-            //     duration: 2
-            // }, "-=1.5");
+            // About top section timeline
+            let a_tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: ".about__top",
+                    start: "top center"
+                }
+            });
+
+            a_tl.from(".about__top__title", {
+                opacity: 0,
+                duration: 2
+            },)
+            .from(".about__top-load", {
+                width: 0,
+                duration: 2
+            }, "-=1.5")
+            .from(".about__bottom-1", {
+                opacity: 0,
+                duration: 1
+            }, "-=1.5")
+            .from(".about__bottom-2", {
+                opacity: 0,
+                duration: 1
+            }, "-=.7")
+            .from(".about__bottom-3", {
+                opacity: 0,
+                duration: 1
+            }, "-=.5");
         },
         "all": function() {
             gsap.from(".service__title", {
@@ -108,51 +176,6 @@ function home() {
             });
         }
     });
-
-    // About top section timeline
-    let a_tl = gsap.timeline({
-        scrollTrigger: {
-            trigger: ".about__top",
-            start: "top center"
-        }
-    });
-
-    a_tl.from(".about__top__title", {
-        opacity: 0,
-        duration: 2
-    },)
-    .from(".about__top-load", {
-        width: 0,
-        duration: 2
-    }, "-=1.5");
-
-    gsap.from(".about__bottom-1", {
-        scrollTrigger: {
-            trigger: ".about__bottom-1",
-            start: "top center"
-        },
-        opacity: 0,
-        duration: 1
-    });
-
-    gsap.from(".about__bottom-2", {
-        scrollTrigger: {
-            trigger: ".about__bottom-2",
-            start: "top center"
-        },
-        opacity: 0,
-        duration: 1
-    });
-
-    gsap.from(".about__bottom-3", {
-        scrollTrigger: {
-            trigger: ".about__bottom-3",
-            start: "top center"
-        },
-        opacity: 0,
-        duration: 1
-    });
-    
 }
 
 barba.use(barbaPrefetch);

@@ -49,6 +49,12 @@ html {
       font-size: 28%; } }
   @media (min-width: 93.75em) {
     html {
+      font-size: 79%; } }
+  @media (min-width: 112.5em) {
+    html {
+      font-size: 90%; } }
+  @media (min-width: 131.25em) {
+    html {
       font-size: 100%; } }
 
 h1 {
@@ -145,7 +151,8 @@ $breakpoint arguement choices:
       height: 30rem;
       border-bottom: 8px solid #fddb3a;
       border-top-left-radius: 4px;
-      border-top-right-radius: 4px; }
+      border-top-right-radius: 4px;
+      width: 100%; }
       @media (max-width: 46.875em) {
         .service__img-container {
           height: 53rem; } }
@@ -187,6 +194,10 @@ $breakpoint arguement choices:
     grid-template-rows: min-content;
     justify-items: center;
     grid-gap: 1rem; }
+    @media (max-width: 64.375em) {
+      .service__grid {
+        grid-template-columns: 1fr repeat(3, minmax(min-content, 30rem)) 1fr;
+        grid-template-rows: min-content; } }
     @media (max-width: 46.875em) {
       .service__grid {
         grid-template-columns: 1fr minmax(min-content, 70rem) 1fr;
@@ -209,6 +220,11 @@ $breakpoint arguement choices:
       .service__card {
         height: 100%;
         padding-bottom: 2rem; } }
+    .service__card-info {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: end; }
     .service__card p {
       padding: 0 1.5rem;
       color: #606060;
@@ -337,47 +353,23 @@ $breakpoint arguement choices:
 .heightInh {
   height: inherit; }
 
-.excaH {
-  position: relative;
-  top: -2%; }
+.top-row {
+  height: 30rem; }
+  @media (min-width: 65.625em) {
+    .top-row {
+      height: 24rem; } }
   @media (max-width: 46.875em) {
-    .excaH {
-      top: 0; } }
+    .top-row {
+      height: auto; } }
 
-.excaP {
-  position: relative;
-  top: -4%; }
+.bottom-row {
+  height: 20rem; }
+  @media (min-width: 65.625em) {
+    .bottom-row {
+      height: 15rem; } }
   @media (max-width: 46.875em) {
-    .excaP {
-      top: 0; } }
-
-.waterH {
-  position: relative;
-  top: -8%; }
-  @media (max-width: 46.875em) {
-    .waterH {
-      top: 0; } }
-
-.waterP {
-  position: relative;
-  top: -15.5%; }
-  @media (max-width: 46.875em) {
-    .waterP {
-      top: 0; } }
-
-.shoreH {
-  position: relative;
-  top: -3%; }
-  @media (max-width: 46.875em) {
-    .shoreH {
-      top: 0; } }
-
-.shoreP {
-  position: relative;
-  top: -4.5%; }
-  @media (max-width: 46.875em) {
-    .shoreP {
-      top: 0; } }
+    .bottom-row {
+      height: auto; } }
 
 .main-view {
   display: grid;

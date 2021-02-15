@@ -1,15 +1,23 @@
 var page = 2;
 var foundAll = false;
 var id = $("#projectPortId").val();
-var svg = document.getElementsByClassName("loading_svg")[0];
+var svg = document.getElementById("loading_svg");
 
-console.log(svg);
+async function showIcon(svg) {
+    await gsap.to(svg, {duration: 0.3, opacity: 1});
+}
+
+async function hideIcon(svg) {
+    await gsap.to(svg, {duration: 0.3, opacity: 0});
+}
 
 window.onscroll = function(ev) {
     if (((window.innerHeight + window.scrollY) >= document.body.scrollHeight) && foundAll == false) {
         // you're at the bottom of the page
         var url_imgs = '/more_imgs/' + id + "/"+ page;
-        svg.style.opacity = "1";
+        
+        showIcon(svg);
+
         $.ajax( {
             url: url_imgs,
             type: "POST",
@@ -24,13 +32,13 @@ window.onscroll = function(ev) {
                     div.innerHTML += res['html'];
                     page = page + 1;
                 }
-                svg.style.opacity = "0";
+
+                hideIcon(svg);
             },
             error: function() {
+                hideIcon(svg);
                 alert("Ajax not successful");
-                svg.style.opacity = "0";
             }
-            
         });
     }
 };

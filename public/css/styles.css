@@ -2076,7 +2076,7 @@ $breakpoint arguement choices:
   text-align: center; }
 
 #loading_svg {
-  opacity: 0;
+  display: none;
   position: fixed;
   top: calc(50%);
   left: 50%;

@@ -7,18 +7,19 @@
     <body data-barba="wrapper">
         <%- include('header', {user: user}); -%>
         <main class="portfolio_body" data-barba="container" data-barba-namespace="project">
-            <div id="loading_svg">
-                <img src="./img/loading.svg">
-            </div>
             <input style="display: none;" id="projectPortId" type="text" value="<%=project._id%>">
             <div class="project-root">
+                <div id="loading_svg">
+                    <img src="./img/loading.svg">
+                </div>
                 <h2 class="word-wrap project-root__title"><%=project.name%></h2>
                 <div class="project-root__gallery">
                     <%- include('show-images.ejs', {images: images}); -%>
                 </div>
+                <button onclick="tog()">show</button>
             </div>
+            <script type="text/javascript" src="./src/img-ajax.js"></script>
         </main>
-        <script type="text/javascript" src="./src/img-ajax.js"></script>
         <%- include('footer'); -%>
     </body>
 </html>

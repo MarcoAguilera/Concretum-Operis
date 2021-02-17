@@ -24,6 +24,8 @@ const { convertToTimeZone } = require("date-fns-timezone");
 const clean = require('./helper');
 const helper = require('./helper');
 const ejs = require("ejs");
+const cryptoRandomString = require("crypto-random-string");
+const sendMail = require(__dirname + '/public/src/mail.js');
 
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -45,9 +47,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/project/:name", express.static(path.join(__dirname, "public")));
 app.use("/edit/:id", express.static(path.join(__dirname, "public")));
 app.use("/edit", express.static(path.join(__dirname, "public")));
+app.use("/new-password/:id", express.static(path.join(__dirname, "public")));
 
-mongoose.connect(process.env.MON_PASS, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
-// mongoose.connect("mongodb://localhost:27017/operisDB", {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
+// mongoose.connect(process.env.MON_PASS2, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
+mongoose.connect("mongodb://localhost:27017/operisDB", {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 mongoose.set("useCreateIndex", true);
 
@@ -84,9 +87,20 @@ const requestSchema = new mongoose.Schema({
     date: {type: Date, default: Date.now}
 });
 
+const resetSchema = new mongoose.Schema({
+    user: String,
+    resetCode: String,
+    expireAt: {
+        type: Date,
+        index: {expires: '5m'},
+        default: Date.now
+    }
+});
+
 const Image = mongoose.model("Image", imageSchema);
 const Project = mongoose.model("Project", projectSchema);
 const Request = mongoose.model("Request", requestSchema);
+const Reset = mongoose.model("Reset", resetSchema);
 
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -527,6 +541,80 @@ app.post("/more_imgs/:id/:page", function(req, res) {
         }        
     });
 });
+
+app.get("/reset-password", function(req, res) {
+    res.render("reset-password", {user: req.isAuthenticated()});
+});
+
+app.get("/new-password/:id", function(req, res) {
+    Reset.findOne({resetCode: req.params.id}, function(err, link) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('new-password', {user: req.isAuthenticated(), exists: link});
+    });
+});
+
+app.post("/new-password/:id", function(req, res){
+    Reset.findOne({resetCode: req.params.id}, function(err, link) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            if(link) {
+                User.findById(link.user, function(err, user) {
+                    if (err) {
+                        console.log(err);
+                        res.send("Failure");
+                    }
+                    else {
+                        User.deleteOne({_id: user._id}, function(err) {
+                            if (err) {
+                                console.log(err);
+                            }
+                            else {
+                                User.register({username: user.username}, req.body.password, function(err) {
+                                    if (err) {
+                                        console.log(err);
+                                    }
+                                    else {
+                                        console.log("Update successful");
+                                    }
+                                });
+                            }
+                        });
+                        res.send("Success");
+                    }
+                });
+            }
+            else {
+                res.send("No Success");
+            }
+        }
+    });
+});
+
+app.post("/verify-email", function(req, res) {
+    var randID = cryptoRandomString({length: 15});
+    var link = "http://www.concretumoperis.com/password-reset/" + randID;
+
+    User.findOneAndUpdate({username: req.body.email}, {resetLink: randID}, function(err, user) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            if (user) {
+                console.log("User");
+                var newReset = new Reset({user: user._id, resetCode: randID});
+                newReset.save();
+                // sendMail(req.body.email, link);
+            }
+            else {
+                console.log("No user found!");
+            }
+        }
+    });
+});
 // ******************************************
 // Leave incase we want to make a new account
 // ******************************************
@@ -537,7 +625,7 @@ app.post("/more_imgs/:id/:page", function(req, res) {
 
 // app.post("/register", function(req, res) {
 
-//     User.register({username: req.body.username}, req.body.password, function(err, user) {
+//     User.register({username: req.body.username, resetLink: ""}, req.body.password, function(err, user) {
 //         if (err) {
 //             res.redirect("/register");
 //         }

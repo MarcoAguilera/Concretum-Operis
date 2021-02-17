@@ -2403,3 +2403,17 @@ $breakpoint arguement choices:
 .toggleDiv {
   height: 0;
   overflow: hidden; }
+
+.reset-password {
+  position: absolute;
+  top: 8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 40rem;
+  width: 20rem;
+  background-color: cadetblue;
+  margin-top: 5rem; }
+
+.new_password {
+  position: relative;
+  top: 8rem; }

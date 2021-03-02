@@ -1606,19 +1606,13 @@ $breakpoint arguement choices:
         background-color: #59886b; }
       .calander__card__apps__app-2 {
         z-index: 2;
-        background-color: #c05555;
-        position: absolute;
-        left: 73%; }
+        background-color: #c05555; }
       .calander__card__apps__app-3 {
         background-color: #ffc85c;
-        z-index: 3;
-        position: absolute;
-        left: 62%; }
+        z-index: 3; }
       .calander__card__apps__app-4 {
         z-index: 4;
-        background-color: #ff983e;
-        position: absolute;
-        left: 51%; }
+        background-color: #ff983e; }
       .calander__card__apps__app-over {
         display: none; }
 
@@ -1647,7 +1641,8 @@ $breakpoint arguement choices:
   right: 0;
   transition: all .3s;
   overflow-y: scroll;
-  z-index: 101; }
+  z-index: 101;
+  padding-bottom: 8rem; }
   @media (max-width: 46.875em) {
     .request-popup {
       top: 10rem; } }
@@ -1698,7 +1693,8 @@ $breakpoint arguement choices:
     min-height: 70%; }
     @media (max-width: 46.875em) {
       .request-popup__content {
-        padding-bottom: 10rem; } }
+        padding-bottom: 10rem;
+        margin-top: 6rem; } }
     .request-popup__content__card {
       background-color: white;
       border-radius: 5px;

@@ -61,7 +61,7 @@ ScrollTrigger.matchMedia({
  function closeNav(div) {
     var w = window.screen.width;
     $('.hamburger').trigger("click");
-    if(w > 570) {
+    if(w > 750) {
         $('html,body').animate({
             scrollTop: $(div).offset().top,
         },
@@ -72,7 +72,7 @@ ScrollTrigger.matchMedia({
     }
     else {
         $('html,body').animate({
-            scrollTop: $(div).offset().top,
+            scrollTop: $(div).offset().top - 50,
         }, 'slow');
     }
 }

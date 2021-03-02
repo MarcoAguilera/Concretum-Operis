@@ -21,6 +21,7 @@ $(".edit-project__images-div").on("click", function() {
     $(".edit-project__navbar-delete").text("Delete Images: " + elems.length);
 });
 
+
 function toggleImgDiv() {
     $(".edit-project__images").toggleClass("toggleDiv");
     
@@ -88,6 +89,50 @@ function setNewName() {
     names[1].innerHTML = names[0].value;
     if (names[2].textContent.trim() != "Click Me") {
         names[2].innerHTML = names[0].value;
+    }
+}
+
+function preSetCheck(online) {
+    if (online == "true") {
+        $(".switch_box").prop('checked', true);
+    }
+}
+
+function toggleProject(id) {
+    console.log(id);
+    var check = $(".switch_box:checked").val();
+
+    if (check === undefined) {
+        $.ajax({
+            async: true,
+            url: "/set-project-vis/" + id,
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({show: "offline"}),
+            success: function(response) {
+                alert(response)
+            },
+            error: function() {
+                alert("Ajax not successful");
+                location.reload;
+            }
+        });   
+    }
+    else if (check == "on") {
+        $.ajax({
+            async: true,
+            url: "/set-project-vis/" + id,
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({show: "online"}),
+            success: function(response) {
+                alert(response);
+            },
+            error: function() {
+                alert("Ajax not successful");
+                location.reload;
+            }
+        });   
     }
 }
 

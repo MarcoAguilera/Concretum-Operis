@@ -1,3 +1,12 @@
+function redirectLogin() {
+    // window.location="http://localhost:3000/login";
+    window.location="http://www.concretumoperis.com/login"
+}
+
+function fiveSecRedirect() {
+    setTimeout('redirectLogin()', 5000);
+}
+
 $('.new_password__form').on('submit', function(event) {
     event.preventDefault();
     
@@ -13,10 +22,18 @@ $('.new_password__form').on('submit', function(event) {
             contentType: 'application/json',
             data: JSON.stringify({password: pass}),
             success: function(response) {
-                console.log(response);
+                if (response == "Success") {
+                    $('.new_password').css('display', 'none');
+                    $('.new_password__success').css('display', 'flex');
+                    setTimeout('redirectLogin()', 10000);
+                }   
+                else {
+                    alert(response);
+                }
             },
             error: function() {
                 alert("Ajax not successful");
+                redirectLogin();
             }
         });   
     } 

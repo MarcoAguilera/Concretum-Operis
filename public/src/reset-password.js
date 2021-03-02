@@ -1,3 +1,8 @@
+function redirectHome() {
+    // window.location="http://localhost:3000/login";
+    window.location="http://www.concretumoperis.com/login";
+}
+
 $('.reset-password').on('submit', function(event) {
     event.preventDefault();
     
@@ -10,7 +15,18 @@ $('.reset-password').on('submit', function(event) {
         contentType: 'application/json',
         data: JSON.stringify({email: email}),
         success: function(response) {
-            console.log(response);
+            if(response == "Found User") {
+                $('.reset-password').hide(); 
+                $('.reset-password__sent').css('display', 'flex'); 
+
+                setTimeout('redirectHome()', 10000);
+            }
+            else if(response == "Error Finding User") {
+                alert("Error finding user");
+            }
+            else if(response == "No User Found") {
+                alert("User not found");
+            }
         }
     });    
 });

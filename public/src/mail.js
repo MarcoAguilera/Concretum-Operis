@@ -13,9 +13,9 @@ const sendMail = (email, link) => {
     from: 'operis@recovery.com',
     to: email,
     subject: 'Operis Password Recovery',
-    html: '<h3>Click this link to recover password</h3>'
+    html: `<h3>Click this link to recover password <i>(Expires in 5 minutes)</i></h3>` + `<div>Link: ${link}</div>`
   };
-
+ 
   transporter.sendMail(mailOptions, function(err, info) {
     if(err) {
         console.log(err);

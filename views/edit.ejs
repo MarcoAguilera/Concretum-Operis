@@ -11,6 +11,9 @@
         <%- include('header', {user: user}); -%>
         <main data-barba="container" class="portfolio_body" data-barba-namespace="edit">
             <div class="edit">
+                <div id="loading_svg">
+                    <img src="./img/loading.svg">
+                </div>
                 <div class="edit__currentProjects">
                     <% if (projects.length > 0) { %>
                         <h2 class="edit__currentProjects-title">Current Projects</h2>
@@ -37,7 +40,7 @@
                 </div>
                 <div class="edit__newProjects">
                     <h2 class="edit__newProjects-title">Add a new project</h1>
-                    <form class="form" enctype="multipart/form-data" id="uploadForm" action='/edit' method="post">
+                    <form class="form" enctype="multipart/form-data" id="uploadForm" action='/edit' method="post" onsubmit="loadSVG()">
                         <div class="form_element__projName mg-b-2">
                             <h3 class="form_element-name">Enter Project Name</h3>
                             <input class="form_element__projName-input" onchange="setName(this.value)" type="text" name="projectName" placeholder="ex. San Jose" required><br>

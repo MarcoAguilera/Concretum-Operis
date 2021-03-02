@@ -7,9 +7,13 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <%- include('head'); -%>
     </head>
-    <body data-barba="wrapper">
+    <body data-barba="wrapper" onload="preSetCheck('<%=project.online%>')">
         <%- include('header', {user: user}); -%>
         <main class="edit-project portfolio_body" data-barba="container" data-barba-namespace="edit-project">
+            <label class="switch">
+                <input class="switch_box" onclick="toggleProject('<%=project._id%>')" type="checkbox">
+                <span class="slider round"></span>
+            </label>
             <form class="delete-project" action="/edit/<%=project._id%>" method="post">
                 <img class="delete-project__icon" src="./img/trash.svg">
             </form>

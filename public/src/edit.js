@@ -4,6 +4,7 @@ var previewImg = document.getElementById("previewImg");
 var previewDiv = document.getElementById("previewDiv");
 var previewName = document.getElementById("previewName");
 
+
 function openInput(name) {
     $(name).click();
 }
@@ -21,6 +22,10 @@ function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
+}
+
+function loadSVG() {
+    $('#loading_svg').css({opacity: 1});
 }
 
 function showImgs(files) {

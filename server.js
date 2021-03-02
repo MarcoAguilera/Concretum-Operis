@@ -49,14 +49,14 @@ app.use("/edit/:id", express.static(path.join(__dirname, "public")));
 app.use("/edit", express.static(path.join(__dirname, "public")));
 app.use("/new-password/:id", express.static(path.join(__dirname, "public")));
 
-// mongoose.connect(process.env.MON_PASS2, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
-mongoose.connect("mongodb://localhost:27017/operisDB", {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
+mongoose.connect(process.env.MON_PASS, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
+// mongoose.connect("mongodb://localhost:27017/operisDB", {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 mongoose.set("useCreateIndex", true);
 
 const userSchema = new mongoose.Schema ({
     email: String,
-    password: String
+    password: String,
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -76,7 +76,8 @@ const imageSchema = new mongoose.Schema({
 
 const projectSchema = new mongoose.Schema({
     name: String,
-    homeImg: imageSchema
+    homeImg: imageSchema,
+    online: Boolean
 });
 
 const requestSchema = new mongoose.Schema({
@@ -92,7 +93,7 @@ const resetSchema = new mongoose.Schema({
     resetCode: String,
     expireAt: {
         type: Date,
-        index: {expires: '5m'},
+        index: {expires: '15m'},
         default: Date.now
     }
 });
@@ -306,7 +307,8 @@ app.post("/edit", upload.fields([{
                 data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.files.homePhoto[0].filename)), 
                 contentType: 'image/png',
                 project: req.body.projectName
-            }
+            },
+            online: true
         };
 
         Project.create(obj, (err, proj) => {
@@ -417,9 +419,7 @@ app.get("/request", function(req, res) {
         for (var i = 0; i < (daysInMonth + 1); i++) {
             x.push(new Array());
         }
-        
-        console.log(x);
-
+    
         Request.find({}, (err, requests) => {
             if (err) {
                 console.log(err);
@@ -428,7 +428,9 @@ app.get("/request", function(req, res) {
             else {
                 requests.forEach(r => {
                     if (r.date.getDate() <= daysInMonth) {
-                        x[r.date.getDate()].push(r);
+                        if (months[date.getMonth()] == months[r.date.getMonth()]) {
+                            x[r.date.getDate()].push(r);
+                        }
                     }
                 });
                 
@@ -475,8 +477,44 @@ app.post("/request", function(req, res) {
     }
 });
 
+app.post("/set-project-vis/:id", function(req, res) {
+    if(req.isAuthenticated()) {
+        var status = false;
+        if (req.body.show == "online") {
+            status = true;
+        }
+        else if (req.body.show == "offline") {
+            status = false;
+        }
+        else {
+            res.status(400).send({
+                message: "Something went wrong"
+            });
+        }
+        Project.findOneAndUpdate({_id: req.params.id}, {online: status}, function(err) {
+            if (err) {
+                console.log(err);
+                res.status(400).send({
+                    message: "Something went wrong"
+                });
+            }
+            else {
+                if(status == true) {
+                    res.send("Project Is Now Online.");
+                }
+                else {
+                    res.send("Project Is Offline.");
+                }
+            }
+        });
+    }
+    else {
+        res.redirect('/login');
+    }
+});
+
 app.get("/past-projects", function(req, res) {
-    Project.find({}, (err, projects) => { 
+    Project.find({online: true}, (err, projects) => { 
         if (err) { 
             console.log(err); 
             res.redirect('/portfolio');
@@ -494,16 +532,25 @@ app.get("/project/:name", function(req, res) {
             console.log(err);
             res.redirect('/past-projects');
         } else {
-            Image.find({'project' : project._id.toString()},{}, {skip: (10 * (1 - 1)), limit: 10}, function(err, imgs) {
-                if(err) {
-                    console.log(err);
-                    res.redirect('/past-projects');
-                }
-                else {
-                    console.log("Images found: " + imgs.length);
-                    res.render("project", {user : req.isAuthenticated(), project: project, images: imgs});
-                }
-            });
+
+            if (project == undefined) {
+                res.redirect('/past-projects');
+            }
+            else if (project.online == false) {
+                res.redirect('/past-projects');
+            }
+            else {
+                Image.find({'project' : project._id.toString()},{}, {skip: (10 * (1 - 1)), limit: 10}, function(err, imgs) {
+                    if(err) {
+                        console.log(err);
+                        res.redirect('/past-projects');
+                    }
+                    else {
+                        console.log("Images found: " + imgs.length);
+                        res.render("project", {user : req.isAuthenticated(), project: project, images: imgs});
+                    }
+                });
+            }
         }        
     });
 });
@@ -568,6 +615,15 @@ app.post("/new-password/:id", function(req, res){
                         res.send("Failure");
                     }
                     else {
+                        Reset.findOneAndDelete({user: user._id}, function(err) {
+                            if(err) {
+                                console.log("No success");
+                                res.send("Failure");
+                            }
+                            else {
+                                console.log("Success");
+                            }
+                        });
                         User.deleteOne({_id: user._id}, function(err) {
                             if (err) {
                                 console.log(err);
@@ -579,16 +635,16 @@ app.post("/new-password/:id", function(req, res){
                                     }
                                     else {
                                         console.log("Update successful");
+                                        res.send("Success");
                                     }
                                 });
                             }
                         });
-                        res.send("Success");
                     }
                 });
             }
             else {
-                res.send("No Success");
+                res.send("Failure");
             }
         }
     });
@@ -596,25 +652,39 @@ app.post("/new-password/:id", function(req, res){
 
 app.post("/verify-email", function(req, res) {
     var randID = cryptoRandomString({length: 15});
-    var link = "http://www.concretumoperis.com/password-reset/" + randID;
+    var link = "http://www.concretumoperis.com/new-password/" + randID;
+    // var link = "http://localhost:3000/new-password/" + randID;
 
     User.findOneAndUpdate({username: req.body.email}, {resetLink: randID}, function(err, user) {
         if (err) {
             console.log(err);
+            res.send("Error Finding User");
         }
         else {
             if (user) {
                 console.log("User");
-                var newReset = new Reset({user: user._id, resetCode: randID});
-                newReset.save();
-                // sendMail(req.body.email, link);
+
+                Reset.findOneAndDelete({user: user._id}, function(err) {
+                    if(err) {
+                        console.log("No success");
+                    }
+                    else {
+                        console.log("Success");
+                        var newReset = new Reset({user: user._id, resetCode: randID});
+                        newReset.save();
+                        sendMail(req.body.email, link);
+                        res.send("Found User");
+                    }
+                });
             }
             else {
+                res.send("No User Found");
                 console.log("No user found!");
             }
         }
     });
 });
+
 // ******************************************
 // Leave incase we want to make a new account
 // ******************************************

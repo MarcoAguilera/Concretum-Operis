@@ -49,6 +49,15 @@ app.use("/edit/:id", express.static(path.join(__dirname, "public")));
 app.use("/edit", express.static(path.join(__dirname, "public")));
 app.use("/new-password/:id", express.static(path.join(__dirname, "public")));
 
+if(process.env.NODE_ENV === 'production') {
+    app.use((req, res, next) => {
+        if (req.header('x-forwarded-proto') !== 'https')
+          res.redirect(`https://${req.header('host')}${req.url}`)
+        else
+          next()
+    })
+}
+
 mongoose.connect(process.env.MON_PASS, {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
 // mongoose.connect("mongodb://localhost:27017/operisDB", {useNewUrlParser: true, useUnifiedTopology: true, 'useFindAndModify': false});
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));

@@ -2268,6 +2268,12 @@ $breakpoint arguement choices:
   height: 34px;
   top: 10%;
   left: 90.5%; }
+  @media (max-width: 46.875em) {
+    .switch {
+      left: 83.5%; } }
+  @media (max-width: 25em) {
+    .switch {
+      left: 75%; } }
 
 /* Hide default HTML checkbox */
 .switch input {

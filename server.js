@@ -12,7 +12,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const fs = require("fs");
-const { emptyDirSync } = require('fs-extra');
 const multer = require("multer");
 const mongoose = require("mongoose");
 const encrypt = require("mongoose-encryption");

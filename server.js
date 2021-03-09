@@ -25,6 +25,7 @@ const helper = require('./helper');
 const ejs = require("ejs");
 const cryptoRandomString = require("crypto-random-string");
 const sendMail = require(__dirname + '/public/src/mail.js');
+var dataUriToBuffer = require('data-uri-to-buffer');
 
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -33,7 +34,7 @@ const client = require('twilio')(accountSid, autheToken);
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -46,6 +47,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/project/:name", express.static(path.join(__dirname, "public")));
 app.use("/edit/:id", express.static(path.join(__dirname, "public")));
 app.use("/edit", express.static(path.join(__dirname, "public")));
+app.use("/projects", express.static(path.join(__dirname, "public")));
 app.use("/new-password/:id", express.static(path.join(__dirname, "public")));
 
 if(process.env.NODE_ENV === 'production') {
@@ -79,7 +81,8 @@ passport.deserializeUser(User.deserializeUser());
 const imageSchema = new mongoose.Schema({
     data: Buffer,
     contentType: String,
-    project: String
+    project: String,
+    position: Number
 });
 
 const projectSchema = new mongoose.Schema({
@@ -198,14 +201,14 @@ app.get("/edit/:id", function(req, res) {
                 res.redirect("/edit");
             }
             else {
-                Image.find({'project' : project._id.toString()}, function(err, imgs) {
+                Image.find({'project' : project._id.toString()}).sort({position: 1}).exec(function(err, imgs) {
                     if(err) {
                         console.log(err);
                         res.redirect('/edit');
                     }
                     else {
                         console.log("Images found: " + imgs.length);
-                        res.render("edit-project", {user: req.isAuthenticated(), project: project, images: imgs});
+                        res.render("edit-project", {user: req.isAuthenticated(), project: project, images: imgs, helper: clean});
                     }
                 });
             }
@@ -283,7 +286,8 @@ app.post("/home/:id", upload.fields([{name: "newHomePhoto", maxCount: 1}]), func
                     doc.homeImg = {
                         data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.files.newHomePhoto[0].filename)), 
                         contentType: 'image/png',
-                        project: req.body.projectName
+                        project: req.body.projectName,
+                        position: 0
                     }
                 }
                 doc.save(function(err) {
@@ -333,7 +337,8 @@ app.post("/edit", upload.fields([{
                     var img = {
                         data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.files.projectPhotos[i].filename)),
                         contentType: 'image/png',
-                        project: proj._id
+                        project: proj._id,
+                        position: i
                     }
                     imgs.push(img);
                 }
@@ -354,16 +359,19 @@ app.post("/edit", upload.fields([{
     }
 });
 
-app.post("/add-new-images/:id", upload.fields([{name: "projectPhotos", maxCount: 300}]), function(req, res) {
+app.post("/add-new-images/:id/:size", upload.fields([{name: "projectPhotos", maxCount: 300}]), function(req, res) {
     if (req.isAuthenticated()) {
         var imgs = [];
+        var startPos = parseInt(req.params.size, 10);
 
         for(i = 0; i < req.files.projectPhotos.length; i++) {
             var img = {
                 data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.files.projectPhotos[i].filename)),
                 contentType: 'image/png',
-                project: req.params.id
+                project: req.params.id,
+                position: startPos
             }
+            startPos+= 1;
             imgs.push(img);
         }
         Image.insertMany(imgs, function(err) {
@@ -521,7 +529,7 @@ app.post("/set-project-vis/:id", function(req, res) {
     }
 });
 
-app.get("/past-projects", function(req, res) {
+app.get("/projects", function(req, res) {
     Project.find({online: true}, (err, projects) => { 
         if (err) { 
             console.log(err); 
@@ -548,7 +556,7 @@ app.get("/project/:name", function(req, res) {
                 res.redirect('/past-projects');
             }
             else {
-                Image.find({'project' : project._id.toString()},{}, {skip: (10 * (1 - 1)), limit: 10}, function(err, imgs) {
+                Image.find({'project' : project._id.toString()},{}, {skip: (10 * (1 - 1))}).sort({position: 1}).limit(10).exec(function(err, imgs) {
                     if(err) {
                         console.log(err);
                         res.redirect('/past-projects');
@@ -569,7 +577,7 @@ app.post("/more_imgs/:id/:page", function(req, res) {
             console.log(err);
             // res.redirect('/past-projects');
         } else {
-            Image.find({'project' : project._id.toString()},{}, {skip: (10 * (req.params.page - 1)), limit: 10}, function(err, imgs) {
+            Image.find({'project' : project._id.toString()},{}, {skip: (10 * (req.params.page - 1))}).sort({position: 1}).limit(10).exec(function(err, imgs) {
                 if(err) {
                     console.log(err);
                     // res.redirect('/past-projects');
@@ -691,6 +699,80 @@ app.post("/verify-email", function(req, res) {
             }
         }
     });
+});
+
+app.post("/rotate-image/:id", function(req, res) {
+    if(req.isAuthenticated()) {
+
+        Image.findById(req.params.id, function(err, img) {
+            if(err) {
+                console.log(err);
+                res.send("Fail");
+            }
+            else if (img) {
+                img.data = dataUriToBuffer(req.body.data);
+                img.save(function(err) {
+                    if(err) {
+                        console.log(err);
+                        res.send("Fail");
+                    }
+                    else {
+                        res.send("Success");
+                    }
+
+                });
+            } 
+            else {
+                res.send("Image not found in database");
+            }
+        });
+    }
+    else {
+        res.redirect('/login');
+    }
+});
+
+app.post("/setOrder", function (req, res){
+    if(req.isAuthenticated()) {
+        let mapId = new Map();
+
+        for(i = 0; i < req.body.Ids.length; i++) {
+            mapId.set(req.body.Ids[i], i);
+        }
+
+        Image.find({'project' : req.body.projectId.toString()},{}, function(err, imgs) {
+            if(err) {
+                console.log(err);
+                res.send("Error");
+            }
+            else {
+                var errors = [];
+                for(i = 0; i < imgs.length; i++) {
+                    if(mapId.get(imgs[i]._id.toString()) != undefined) {
+                        imgs[i].position = mapId.get(imgs[i]._id.toString());
+                    }
+
+                    imgs[i].save(function(err) {
+                        if(err) {
+                            errors.push(err);
+                        }
+                    });
+                }
+
+                if (errors.length > 0) {
+                    console.log("THERE WAS ERRORS UPDATING ALL IMAGES!!!");
+                    res.send("Fail");
+                }
+                else {
+                    console.log("Success");
+                    res.send("Success");
+                }
+            }
+        });
+    }
+    else {
+        res.redirect('/login');
+    }
 });
 
 // ******************************************

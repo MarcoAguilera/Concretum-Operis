@@ -67,6 +67,14 @@ function home() {
                 opacity: 0,
                 duration: 1
             });
+            gsap.from(".service__card--7", {
+                scrollTrigger: {
+                    trigger: ".service__card--7",
+                    start: "top center"
+                },
+                opacity: 0,
+                duration: 1
+            });
 
             // About top section timeline
             let a_tl = gsap.timeline({
@@ -274,7 +282,7 @@ barba.init({
         },
         {
             to: {
-                namespace: ['project','novato', 'san-rafael', 'stinson-beach', 'valencia-st']
+                namespace: ['project']
             },
             
             once({next}) {

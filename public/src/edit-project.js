@@ -1,3 +1,5 @@
+var svg = document.getElementById("loading_svg");
+
 $(".delete-project__icon").click(function() {
     $("html, body").animate({ scrollTop: 0 }, "slow");
     $('html, body').css({overflow: 'hidden', height: '100%'});
@@ -14,13 +16,12 @@ $(".deleteProjPopup-check__flex-delete").click(function() {
     $(form).submit();
 });
 
-$(".edit-project__images-div").on("click", function() {
+$(".edit-project__images-img").on("click", function() {
     $(this).toggleClass("removeSelect");
 
     var elems = document.getElementsByClassName("removeSelect");
     $(".edit-project__navbar-delete").text("Delete Images: " + elems.length);
 });
-
 
 function toggleImgDiv() {
     $(".edit-project__images").toggleClass("toggleDiv");
@@ -152,4 +153,43 @@ function imagesChanges() {
 
         $(form).submit();
     }
+}
+
+function rotateImage(id, contentType) {
+    var image = new Image();
+    var imgData = $(`#${id}`)[0].src;
+
+    image.src = imgData;
+    var canvas = document.createElement('canvas');
+    canvas.width = image.naturalHeight
+    canvas.height = image.naturalWidth;
+
+    var ctx = canvas.getContext("2d");
+
+    ctx.translate(image.height/2,image.width/2);
+    ctx.rotate(90*Math.PI/180);
+    ctx.drawImage(image, canvas.width / 2, canvas.height / 2, 1, Math.PI / 2);
+    ctx.drawImage(image,-image.width/2,-image.height/2);
+    const rotatedData = canvas.toDataURL("image/png");   
+
+    gsap.to(svg, {duration: .5, opacity: 1});
+
+    $.ajax( {
+        url: `/rotate-image/${id}`,
+        type: "POST",
+        contentType: 'application/json',
+        async: true,
+        data: JSON.stringify({data: rotatedData}),
+        success: function(res) {
+            if(res == "Success") {
+                document.getElementById(`${id}`).src = `${rotatedData}`;
+            }
+        },
+        complete: function() {
+            gsap.to(svg, {duration: .5, opacity: 0});
+        },
+        error: function() {
+            alert("Ajax not successful");
+        }
+    });
 }

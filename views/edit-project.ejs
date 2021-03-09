@@ -10,6 +10,9 @@
     <body data-barba="wrapper" onload="preSetCheck('<%=project.online%>')">
         <%- include('header', {user: user}); -%>
         <main class="edit-project portfolio_body" data-barba="container" data-barba-namespace="edit-project">
+            <div id="loading_svg">
+                <img src="./img/loading.svg">
+            </div>
             <label class="switch">
                 <input class="switch_box" onclick="toggleProject('<%=project._id%>')" type="checkbox">
                 <span class="slider round"></span>
@@ -20,16 +23,18 @@
             <form action="/home/<%=project._id%>" method="post" enctype="multipart/form-data">
                 <input id="edit-input" onchange="setNewName()" class="project_name edit-project-relative" name="projectName" type="text" value="<%=project.name%>">
                 <div class="edit-project__mainImg">
-                    <div class="edit__currentProjects-grid__project">
-                        <img class="cover-img edit__currentProjects-grid__project_img" src="data:image/<%=project.homeImg.contentType%>;base64,
-                        <%=project.homeImg.data.toString('base64')%>">
-                        <div class="project_name">
-                            <%=project.name%>
+                    <a href="/project/<%=helper.clean(project.name)%>" target="_blank">
+                        <div class="edit__currentProjects-grid__project">
+                            <img class="cover-img edit__currentProjects-grid__project_img" src="data:image/<%=project.homeImg.contentType%>;base64,
+                            <%=project.homeImg.data.toString('base64')%>">
+                            <div class="project_name">
+                                <%=project.name%>
+                            </div>
+                            <div class="view_project">
+                                View Project &#x000BB;
+                            </div>
                         </div>
-                        <div class="view_project">
-                            View Project &#x000BB;
-                        </div>
-                    </div>
+                    </a>
                     <img class="edit-project__mainImg-source" src="./img/fast-forward.svg">
                     <input onchange="setNewHomeImg(this.files)" class="edit-project__mainImg-uploaded" type="file" name="newHomePhoto">
                     <div onclick="openExplore()" class="edit__currentProjects-grid__project">
@@ -47,7 +52,7 @@
             </form>
             <hr class="transform_to_middle" style="background-color: white; width: 80%; margin-top: 0; height: 1px;">
 
-            <form class="edit-project__form" action="/add-new-images/<%=project._id%>" method="post" enctype="multipart/form-data">
+            <form class="edit-project__form" action="/add-new-images/<%=project._id%>/<%=images.length%>" method="post" enctype="multipart/form-data">
                 <h2 class="edit-project__form-title">Add New Images</h2>
                 <div class="form_element__projectPhotos-div">
                     <input class="form_element__projectPhotos-input" onchange="showNewImgs(this.files)" type="file" name="projectPhotos" multiple required><br>
@@ -63,13 +68,17 @@
                 <div class="edit-project__navbar">
                     <button style="background-color: #ca1a1a;" onclick="imagesChanges()" class="edit-project__navbar-delete edit-project__button" type="button">Delete Images: 0</button>
                     <button style="background-color: #e0cc18;" class="edit-project__button edit-project__navbar-show" onclick="toggleImgDiv()" type="button">Show Images</button>
+                    <button style="background-color: #2fe018;" class="edit-project__button" onclick="setOrder('<%=project._id%>')" type="button">Set Order</button>
                     <button style="background-color: #3748e0;" onclick="deselectAll()" class="edit-project__navbar-deselect edit-project__button" type="button">Deselect All</button>
                 </div>
             </form>
             <div class="edit-project__images toggleDiv">
                 <% images.forEach(function(img, index) { %>
-                    <div id="<%=img._id%>" class="edit-project__images-div">
-                        <img class="edit-project__images-img" src="data:image/<%=img.contentType%>;base64,<%=img.data.toString('base64')%>">
+                    <div class="edit-project__images-div">
+                        <div class="item edit-project__images-div__rotate" onclick="rotateImage('<%=img._id%>', '<%=img.contentType%>')">
+                            <img class="edit-project__images-div__rotate-button" src="./img/reload.svg" alt="">
+                        </div>
+                        <img id="<%=img._id%>" class="edit-project__images-img" src="data:image/<%=img.contentType%>;base64,<%=img.data.toString('base64')%>">
                     </div>
                 <% }) %> 
             </div>

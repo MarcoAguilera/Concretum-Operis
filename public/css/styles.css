@@ -220,6 +220,17 @@ $breakpoint arguement choices:
       .service__card {
         height: 100%;
         padding-bottom: 2rem; } }
+    .service__card--trucking-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      font-family: 'Montserrat', sans-serif;
+      color: #606060; }
+      .service__card--trucking-grid__subtitle {
+        text-align: left !important;
+        font-size: 1.5rem; }
+      .service__card--trucking-grid__p {
+        text-align: left !important;
+        font-size: 1.7rem; }
     .service__card-info {
       align-items: center;
       display: flex;
@@ -233,6 +244,17 @@ $breakpoint arguement choices:
       text-align: center; }
       @media (max-width: 46.875em) {
         .service__card p {
+          font-size: 3rem; } }
+    .service__card ul {
+      list-style: square; }
+    .service__card li {
+      padding: 0 1.5rem;
+      color: #606060;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      text-align: left; }
+      @media (max-width: 46.875em) {
+        .service__card li {
           font-size: 3rem; } }
     .service__card--1 {
       grid-column: 2 / span 1; }
@@ -265,6 +287,82 @@ $breakpoint arguement choices:
       @media (max-width: 46.875em) {
         .service__card--6 {
           grid-column: 2; } }
+    .service__card--7 {
+      grid-column: 2 / span 3;
+      border: 2px solid #f6f7fb;
+      border-radius: 3px;
+      overflow: hidden; }
+      @media (max-width: 46.875em) {
+        .service__card--7 {
+          grid-column: 2;
+          width: 100%; } }
+      .service__card--7__horizontal {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); }
+        @media (max-width: 46.875em) {
+          .service__card--7__horizontal {
+            grid-template-rows: repeat(1, 1fr);
+            grid-template-columns: auto; } }
+        .service__card--7__horizontal--title {
+          font-size: 4rem;
+          padding-bottom: 10px;
+          color: #41444b;
+          text-align: center;
+          text-transform: uppercase;
+          font-family: 'Playfair Display', serif;
+          font-weight: bold;
+          font-style: italic;
+          padding-top: 20px; }
+          @media (max-width: 46.875em) {
+            .service__card--7__horizontal--title {
+              font-size: 6rem;
+              text-decoration: underline; } }
+        .service__card--7__horizontal-imgDiv {
+          overflow: hidden;
+          width: 100%;
+          grid-column: 1 / span 1;
+          border-bottom: 8px solid #fddb3a; }
+          @media (max-width: 46.875em) {
+            .service__card--7__horizontal-imgDiv {
+              height: 53rem; } }
+        .service__card--7__horizontal--img {
+          height: 31.3rem; }
+          @media (max-width: 46.875em) {
+            .service__card--7__horizontal--img {
+              object-fit: cover;
+              height: 63rem; } }
+        .service__card--7__horizontal--info-grid {
+          display: grid;
+          grid-template-columns: 3fr 1fr;
+          color: #606060;
+          font-family: 'Montserrat', sans-serif;
+          padding: 0 6rem; }
+          @media (max-width: 46.875em) {
+            .service__card--7__horizontal--info-grid {
+              padding-bottom: 2rem; } }
+          @media (max-width: 28.125em) {
+            .service__card--7__horizontal--info-grid {
+              padding: 0 4rem;
+              white-space: nowrap;
+              padding-bottom: 3rem; } }
+          .service__card--7__horizontal--info-grid__title {
+            font-size: 1.8rem;
+            font-weight: bold; }
+            @media (max-width: 46.875em) {
+              .service__card--7__horizontal--info-grid__title {
+                font-size: 3.3rem; } }
+          .service__card--7__horizontal--info-grid__subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 0.2rem !important; }
+            @media (max-width: 46.875em) {
+              .service__card--7__horizontal--info-grid__subtitle {
+                font-size: 3rem; } }
+          .service__card--7__horizontal--info-grid-price {
+            font-size: 1.8rem;
+            text-align: right; }
+            @media (max-width: 46.875em) {
+              .service__card--7__horizontal--info-grid-price {
+                font-size: 3rem; } }
     .service__card--top {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -354,10 +452,13 @@ $breakpoint arguement choices:
   height: inherit; }
 
 .top-row {
-  height: 30rem; }
+  height: 17rem; }
   @media (min-width: 65.625em) {
     .top-row {
-      height: 24rem; } }
+      height: 17rem; } }
+  @media (max-width: 64.375em) {
+    .top-row {
+      height: 20rem; } }
   @media (max-width: 46.875em) {
     .top-row {
       height: auto; } }
@@ -2381,7 +2482,26 @@ input:checked + .slider:before {
     .edit-project__images-img {
       height: 20rem; }
     .edit-project__images-div {
-      margin: 1rem; }
+      margin: 1rem;
+      position: relative;
+      cursor: pointer; }
+      .edit-project__images-div__rotate {
+        width: 2.3rem;
+        height: 2.3rem;
+        background-color: white;
+        position: absolute;
+        top: 2%;
+        left: 2%;
+        overflow: hidden;
+        box-shadow: 0 4px 2px -2px gray;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer; }
+        .edit-project__images-div__rotate-button {
+          width: 1.5rem; }
   .edit-project__navbar {
     display: flex;
     flex-direction: row;

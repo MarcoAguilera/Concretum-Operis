@@ -201,12 +201,13 @@ app.get("/edit/:id", function(req, res) {
                 res.redirect("/edit");
             }
             else {
-                Image.find({'project' : project._id.toString()}).sort({position: 1}).exec(function(err, imgs) {
+                Image.find({'project' : project._id.toString()}).exec(function(err, imgs) {
                     if(err) {
                         console.log(err);
                         res.redirect('/edit');
                     }
                     else {
+                        imgs.sort((a, b) => (a.position > b.position) ? 1 : -1);
                         console.log("Images found: " + imgs.length);
                         res.render("edit-project", {user: req.isAuthenticated(), project: project, images: imgs, helper: clean});
                     }

@@ -359,7 +359,7 @@ $breakpoint arguement choices:
                 font-size: 3rem; } }
           .service__card--7__horizontal--info-grid-price {
             font-size: 1.8rem;
-            text-align: right; }
+            text-align: center; }
             @media (max-width: 46.875em) {
               .service__card--7__horizontal--info-grid-price {
                 font-size: 3rem; } }

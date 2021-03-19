@@ -298,11 +298,15 @@ $breakpoint arguement choices:
           width: 100%; } }
       .service__card--7__horizontal {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); }
+        grid-template-columns: repeat(2, 1fr);
+        height: 32rem;
+        width: 98rem; }
         @media (max-width: 46.875em) {
           .service__card--7__horizontal {
             grid-template-rows: repeat(1, 1fr);
-            grid-template-columns: auto; } }
+            grid-template-columns: auto;
+            height: auto;
+            width: auto; } }
         .service__card--7__horizontal--title {
           font-size: 4rem;
           padding-bottom: 10px;
@@ -326,11 +330,14 @@ $breakpoint arguement choices:
             .service__card--7__horizontal-imgDiv {
               height: 53rem; } }
         .service__card--7__horizontal--img {
-          height: 31.3rem; }
+          height: 66rem;
+          transform: translateY(-18%); }
           @media (max-width: 46.875em) {
             .service__card--7__horizontal--img {
               object-fit: cover;
-              height: 63rem; } }
+              height: 63rem;
+              width: 100%;
+              transform: translateY(-2%); } }
         .service__card--7__horizontal--info-grid {
           display: grid;
           grid-template-columns: 3fr 1fr;

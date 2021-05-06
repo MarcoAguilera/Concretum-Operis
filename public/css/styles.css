@@ -288,10 +288,11 @@ $breakpoint arguement choices:
         .service__card--6 {
           grid-column: 2; } }
     .service__card--7 {
-      grid-column: 2 / span 3;
+      grid-column: 2 / span 2;
       border: 2px solid #f6f7fb;
       border-radius: 3px;
-      overflow: hidden; }
+      overflow: hidden;
+      height: auto; }
       @media (max-width: 46.875em) {
         .service__card--7 {
           grid-column: 2;
@@ -299,8 +300,8 @@ $breakpoint arguement choices:
       .service__card--7__horizontal {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        height: 32rem;
-        width: 98rem; }
+        height: inherit;
+        width: auto; }
         @media (max-width: 46.875em) {
           .service__card--7__horizontal {
             grid-template-rows: repeat(1, 1fr);
@@ -325,13 +326,14 @@ $breakpoint arguement choices:
           overflow: hidden;
           width: 100%;
           grid-column: 1 / span 1;
-          border-bottom: 8px solid #fddb3a; }
+          border-bottom: 9px solid #fddb3a; }
           @media (max-width: 46.875em) {
             .service__card--7__horizontal-imgDiv {
               height: 53rem; } }
         .service__card--7__horizontal--img {
-          height: 66rem;
-          transform: translateY(-18%); }
+          height: 43.5rem;
+          width: 100%;
+          object-fit: cover; }
           @media (max-width: 46.875em) {
             .service__card--7__horizontal--img {
               object-fit: cover;
@@ -370,6 +372,11 @@ $breakpoint arguement choices:
             @media (max-width: 46.875em) {
               .service__card--7__horizontal--info-grid-price {
                 font-size: 3rem; } }
+    .service__card--8 {
+      grid-column: 4 / span 1; }
+      @media (max-width: 46.875em) {
+        .service__card--8 {
+          grid-column: 2; } }
     .service__card--top {
       display: grid;
       grid-template-columns: repeat(3, 1fr);

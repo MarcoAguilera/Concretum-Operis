@@ -37,7 +37,7 @@ function home() {
                 }
             });
 
-            tl.from(".service__card", {
+            tl.from(".service__card service__card--7", {
                 opacity: 0,
                 duration: 1,
                 stagger: 0.3

@@ -75,6 +75,14 @@ function home() {
                 opacity: 0,
                 duration: 1
             });
+            gsap.from(".service__card--8", {
+                scrollTrigger: {
+                    trigger: ".service__card--8",
+                    start: "top center"
+                },
+                opacity: 0,
+                duration: 1
+            });
 
             // About top section timeline
             let a_tl = gsap.timeline({
